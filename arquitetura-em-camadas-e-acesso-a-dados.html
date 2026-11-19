@@ -1,0 +1,1989 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Introdução passo a passo ao framework web [ASP.NET Core MVC]">
+      
+      
+        <meta name="author" content="Serge Tahé">
+      
+      
+        <link rel="canonical" href="https://stahe.github.io/br-aspnetcoremvc-sept-2026/arquitetura-em-camadas-e-acesso-a-dados.html">
+      
+      
+        <link rel="prev" href="autenticacao-e-autorizacao.html">
+      
+      
+        <link rel="next" href="conclusao-intermediaria.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>9. Arquitetura em camadas e acesso a dados - Introdução passo a passo ao framework web [ASP.NET Core MVC]</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/focus.css">
+    
+      <link rel="stylesheet" href="stylesheets/bidi.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBZC3JVJNR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var siteName = "Introdução passo a passo ao framework web [ASP.NET Core MVC]";
+    gtag('config', 'G-EBZC3JVJNR', {
+        'page_title': siteName
+    });
+  </script>
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#9-arquitetura-em-camadas-e-acesso-a-dados" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Introdução passo a passo ao framework web [ASP.NET Core MVC]" class="md-header__button md-logo" aria-label="Introdução passo a passo ao framework web [ASP.NET Core MVC]" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introdução passo a passo ao framework web [ASP.NET Core MVC]
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              9. Arquitetura em camadas e acesso a dados
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Alternar para o modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para o modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Alternar para o modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para o modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://stahe.github.io/br-aspnetcoremvc-sept-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Introdução passo a passo ao framework web [ASP.NET Core MVC]" class="md-nav__button md-logo" aria-label="Introdução passo a passo ao framework web [ASP.NET Core MVC]" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Introdução passo a passo ao framework web [ASP.NET Core MVC]
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://stahe.github.io/br-aspnetcoremvc-sept-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bem-vindo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="introducao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introdução
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="controllers-actions-roteamento.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Controllers, actions, roteamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="o-modelo-da-action.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. O modelo da action
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="a-view-e-seu-modelo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. A view e seu modelo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="internacionalizacao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Internacionalização
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="escopos-de-dados.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Escopos de dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="o-ciclo-de-vida-de-uma-requisicao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. O ciclo de vida de uma requisição
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="autenticacao-e-autorizacao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Autenticação e autorização
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Arquitetura em camadas e acesso a dados
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="arquitetura-em-camadas-e-acesso-a-dados.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Arquitetura em camadas e acesso a dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-exemplo-28-um-sistema-de-gerenciamento-de-pessoas-em-tres-camadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1. Exemplo 28: um sistema de gerenciamento de pessoas em três camadas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.1. Exemplo 28: um sistema de gerenciamento de pessoas em três camadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#911-o-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.1. O banco de dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#912-a-configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.2. A configuração
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#913-a-entidade-person" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.3. A entidade Person
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#914-o-dbcontext" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.4. O DbContext
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#915-a-camada-dao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.5. A camada DAO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#916-a-camada-de-negocio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.6. A camada de negócio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#917-a-camada-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.7. A camada web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#918-execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1.8. Execução
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusao-intermediaria.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Conclusão intermediária
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="estudo-de-caso-a-aplicacao-rdvmedecins.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Estudo de caso: a aplicação RdvMedecins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Conclusão
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apendices.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Apêndices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="9-arquitetura-em-camadas-e-acesso-a-dados">9. <span style="color: #2e74b5">Arquitetura em camadas e acesso a dados</span></h1>
+<p>Os exemplos anteriores mantinham seus dados na memória. Uma aplicação real os armazena em um banco de dados e é organizada em <strong>camadas</strong> (veja o diagrama na introdução):</p>
+<ul>
+<li>a camada <strong>web</strong> (controllers, views): lê a requisição, chama a camada de negócio, seleciona a view;</li>
+<li>a camada de <strong>negócio</strong>: regras de negócio;</li>
+<li>a camada <strong>DAO</strong> (<em>[Data Access Object]</em>): consultas ao banco de dados.</li>
+</ul>
+<p>Cada camada conhece apenas a camada abaixo dela, e o mínimo possível de detalhes sobre ela: a camada web desconhece o SQL, e a camada de negócio desconhece o HTML. Essa separação torna cada camada mais fácil de entender, testar e evoluir. O Exemplo 28 aplica isso ao gerenciamento de uma lista de pessoas: é, em escala menor, o gerenciamento de médicos e clientes do estudo de caso.</p>
+<p>O acesso ao banco de dados é feito pelo <strong>Entity Framework Core</strong> (EF Core), o ORM (<em>[Object-Relational Mapper]</em>) do <em>[.NET]</em>: ele mapeia classes <em>[C#]</em> (as <strong>entidades</strong>) para as tabelas do banco de dados, traduz consultas escritas em <em>[LINQ]</em> para SQL e transforma as linhas recuperadas em objetos. O EF Core se comunica com cada tipo de banco de dados por meio de um <strong>provider</strong> (<em>[provider]</em>): para o <em>[MySQL]</em>, o pacote <em>[NuGet]</em> <strong><em>[Pomelo.EntityFrameworkCore.MySql]</em></strong>, que por sua vez inclui o EF Core e o driver <em>[MySqlConnector]</em>.</p>
+<h2 id="91-exemplo-28-um-sistema-de-gerenciamento-de-pessoas-em-tres-camadas">9.1. <span style="color: #2e74b5">Exemplo 28: um sistema de gerenciamento de pessoas em três camadas</span></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>28-layers/
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>├── Business/
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>│   ├── BusinessException.cs
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>│   └── PersonsBusiness.cs
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>├── Controllers/
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>│   └── PersonsController.cs
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>├── Dao/
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a>│   └── PersonsDao.cs
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>├── Data/
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>│   └── PersonsDbContext.cs
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>├── database/
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>│   └── dbpersons.sql
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a>├── Entities/
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a>│   └── Person.cs
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a>├── Models/
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>│   └── PersonForm.cs
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a>├── Views/
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>│   ├── Persons/
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>│   │   ├── Form.cshtml
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>│   │   └── List.cshtml
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>│   ├── Shared/
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>│   │   ├── _Confirmation.cshtml
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>│   │   ├── _Field.cshtml
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>│   │   └── _Layout.cshtml
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>│   ├── _ViewImports.cshtml
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a>│   └── _ViewStart.cshtml
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a>├── wwwroot/
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a>│   ├── css/
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a>│   │   └── styles.css
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a>│   └── js/
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>│       └── app.js
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a>├── appsettings.json
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a>├── Example28.csproj
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>└── Program.cs
+</code></pre></div></td></tr></table></div>
+<h3 id="911-o-banco-de-dados">9.1.1. <span style="color: #1f4d78">O banco de dados</span></h3>
+<p>O banco de dados <strong><em>[dbpersons]</em></strong> é criado por um script SQL. Usando o <em>[Laragon]</em>, você pode executá-lo, por exemplo, na ferramenta <em>[HeidiSQL]</em> (menu File / Run a SQL file), ou pela linha de comando:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>mysql -u root &lt; database/dbpersons.sql
+</code></pre></div></td></tr></table></div>
+<p>O arquivo <strong><em>[database/dbpersons.sql]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">-- banco de dados do exemplo 28: uma única tabela, [persons]</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="k">DROP</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">dbpersons</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">dbpersons</span><span class="w"> </span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8mb4</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf8mb4_unicode_ci</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="n">USE</span><span class="w"> </span><span class="n">dbpersons</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">persons</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">  </span><span class="k">version</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">  </span><span class="n">first_name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">  </span><span class="n">last_name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">  </span><span class="n">age</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">  </span><span class="c1">-- duas pessoas não podem ter o mesmo nome e sobrenome</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">unq_persons_first_name_last_name</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">)</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="p">)</span><span class="w"> </span><span class="n">ENGINE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">InnoDB</span><span class="p">;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">persons</span><span class="w"> </span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="w">  </span><span class="p">(</span><span class="s1">'Marie'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Pélissier'</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">),</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="w">  </span><span class="p">(</span><span class="s1">'Jacques'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Bromard'</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">),</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="w">  </span><span class="p">(</span><span class="s1">'Philippe'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Jandot'</span><span class="p">,</span><span class="w"> </span><span class="mi">58</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>Linha 3: o conjunto de caracteres <strong><em>[utf8mb4]</em></strong> aceita todos os caracteres (acentos, emojis etc.). A collation <strong><em>[utf8mb4_unicode_ci]</em></strong> compara cadeias sem distinguir maiúsculas de minúsculas nem acentos: para o <em>[MySQL]</em>, <strong><em>[pelissier],</em></strong> e <strong><em>[Pélissier]</em></strong> são iguais;</li>
+<li>linha 8: um número de versão, incrementado a cada vez que a linha é modificada (veja “bloqueio otimista”, adiante);</li>
+<li>linha 14: uma restrição de unicidade <strong>nomeada</strong>: o banco de dados não permite duas pessoas com o mesmo nome e sobrenome. O nome será usado para identificar o erro.</li>
+</ul>
+<h3 id="912-a-configuracao">9.1.2. <span style="color: #1f4d78">A configuração</span></h3>
+<p>O arquivo <strong><em>[Example28.csproj]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">&lt;Project</span><span class="w"> </span><span class="na">Sdk=</span><span class="s">"Microsoft.NET.Sdk.Web"</span><span class="nt">&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="nt">&lt;ItemGroup&gt;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="cm">&lt;!-- Entity Framework Core e seu provider MySQL / MariaDB --&gt;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="nt">&lt;PackageReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">"Pomelo.EntityFrameworkCore.MySql"</span><span class="w"> </span><span class="na">Version=</span><span class="s">"9.0.0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">  </span><span class="nt">&lt;/ItemGroup&gt;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">  </span><span class="nt">&lt;ItemGroup&gt;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="cm">&lt;!-- o script SQL não é um arquivo da aplicação --&gt;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="nt">&lt;Content</span><span class="w"> </span><span class="na">Remove=</span><span class="s">"database\**"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="nt">&lt;None</span><span class="w"> </span><span class="na">Include=</span><span class="s">"database\**"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">  </span><span class="nt">&lt;/ItemGroup&gt;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="nt">&lt;/Project&gt;</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 5: o provider <em>[MySQL]</em> para o EF Core;</li>
+<li>Linhas 10–11: o script SQL não é um arquivo da aplicação: ele é excluído dos arquivos publicados.</li>
+</ul>
+<p>O arquivo <strong><em>[appsettings.json]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="nt">"Logging"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">    </span><span class="nt">"LogLevel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">      </span><span class="nt">"Default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Information"</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">      </span><span class="nt">"Microsoft.AspNetCore"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Warning"</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">      </span><span class="nt">"Microsoft.EntityFrameworkCore.Database.Command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Warning"</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">  </span><span class="nt">"AllowedHosts"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="w">  </span><span class="nt">"ConnectionStrings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="w">    </span><span class="nt">"DbPersons"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server=localhost;port=3306;database=dbpersons;user=root;password="</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">  </span><span class="nt">"MySql"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">    </span><span class="nt">"ServerVersion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8.0.30-mysql"</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 6: o EF Core registra em log cada comando SQL enviado ao banco de dados no nível <strong><em>[Information]</em></strong>. O nível <strong><em>[Warning]</em></strong> os oculta; basta substituí-lo por <strong><em>[Information]</em></strong> para vê-los no console;</li>
+<li>linhas 10–11: a <strong>string de conexão</strong>: servidor, porta, banco de dados, nome de usuário, senha. Esses são os valores padrão do <em>[Laragon]</em> (usuário <strong><em>[root]</em></strong>, sem senha);</li>
+<li>linha 14: a versão do servidor <em>[MySQL]</em>. O provider <em>[Pomelo]</em> adapta o SQL que gera a essa versão. Por exemplo, uma versão do <em>[MariaDB]</em> seria escrita como <strong><em>[10.11.0-mariadb]</em></strong>.</li>
+</ul>
+<p>O arquivo <strong><em>[Program.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span>
+<span class="normal"><a href="#__codelineno-5-24">24</a></span>
+<span class="normal"><a href="#__codelineno-5-25">25</a></span>
+<span class="normal"><a href="#__codelineno-5-26">26</a></span>
+<span class="normal"><a href="#__codelineno-5-27">27</a></span>
+<span class="normal"><a href="#__codelineno-5-28">28</a></span>
+<span class="normal"><a href="#__codelineno-5-29">29</a></span>
+<span class="normal"><a href="#__codelineno-5-30">30</a></span>
+<span class="normal"><a href="#__codelineno-5-31">31</a></span>
+<span class="normal"><a href="#__codelineno-5-32">32</a></span>
+<span class="normal"><a href="#__codelineno-5-33">33</a></span>
+<span class="normal"><a href="#__codelineno-5-34">34</a></span>
+<span class="normal"><a href="#__codelineno-5-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">System.Text.Encodings.Web</span><span class="p">;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">System.Text.Unicode</span><span class="p">;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Dao</span><span class="p">;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Data</span><span class="p">;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Business</span><span class="p">;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.EntityFrameworkCore</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.Extensions.FileProviders</span><span class="p">;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="kt">var</span><span class="w"> </span><span class="n">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WebApplication</span><span class="p">.</span><span class="n">CreateBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="c1">// a conexão com o banco de dados: string de conexão e versão do servidor, lidas de appsettings.json</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="kt">var</span><span class="w"> </span><span class="n">connectionString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">GetConnectionString</span><span class="p">(</span><span class="s">"DbPersons"</span><span class="p">)</span><span class="o">!</span><span class="p">;</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="kt">var</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ServerVersion</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">[</span><span class="s">"MySql:ServerVersion"</span><span class="p">]</span><span class="o">!</span><span class="p">);</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="c1">// AddDbContext: um DbContext por requisição (tempo de vida Scoped)</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddDbContext</span><span class="o">&lt;</span><span class="n">PersonsDbContext</span><span class="o">&gt;</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">UseMySql</span><span class="p">(</span><span class="n">connectionString</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">));</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16"></a>
+<a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="c1">// as camadas DAO e de negócio: Scoped, como o DbContext que elas usam</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddScoped</span><span class="o">&lt;</span><span class="n">PersonsDao</span><span class="o">&gt;</span><span class="p">();</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddScoped</span><span class="o">&lt;</span><span class="n">PersonsBusiness</span><span class="o">&gt;</span><span class="p">();</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20"></a>
+<a id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddControllersWithViews</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22"></a><span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">ModelBindingMessageProvider</span><span class="p">.</span><span class="n">SetAttemptedValueIsInvalidAccessor</span><span class="p">((</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">field</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">$"The value [{value}] is not valid."</span><span class="p">));</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="p">(</span><span class="n">HtmlEncoder</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">UnicodeRanges</span><span class="p">.</span><span class="n">All</span><span class="p">));</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24"></a>
+<a id="__codelineno-5-25" name="__codelineno-5-25"></a><span class="kt">var</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26"></a>
+<a id="__codelineno-5-27" name="__codelineno-5-27"></a><span class="n">app</span><span class="p">.</span><span class="n">UseStaticFiles</span><span class="p">();</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28"></a><span class="n">app</span><span class="p">.</span><span class="n">UseStaticFiles</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">StaticFileOptions</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29"></a><span class="p">{</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30"></a><span class="w">    </span><span class="n">FileProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PhysicalFileProvider</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">GetFullPath</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">builder</span><span class="p">.</span><span class="n">Environment</span><span class="p">.</span><span class="n">ContentRootPath</span><span class="p">,</span><span class="w"> </span><span class="s">".."</span><span class="p">,</span><span class="w"> </span><span class="s">"common"</span><span class="p">,</span><span class="w"> </span><span class="s">"bootstrap"</span><span class="p">))),</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31"></a><span class="w">    </span><span class="n">RequestPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"/bootstrap"</span><span class="p">,</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32"></a><span class="p">});</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33"></a>
+<a id="__codelineno-5-34" name="__codelineno-5-34"></a><span class="n">app</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">();</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35"></a><span class="n">app</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 12: <strong><em>[GetConnectionString(&quot;DbPersons&quot;)]</em></strong> lê a propriedade <strong><em>[DbPersons]</em></strong> da seção <strong><em>[ConnectionStrings]</em></strong>;</li>
+<li>linha 15: <strong><em>[AddDbContext]</em></strong> registra o <strong><em>[DbContext]</em></strong> (veja adiante), com um tempo de vida <strong><em>[Scoped]</em></strong>: um por requisição. <strong><em>[UseMySql]</em></strong> seleciona o provider <em>[MySQL]</em>;</li>
+<li>linhas 18–19: as camadas DAO e de negócio, que também têm tempo de vida <strong><em>[Scoped]</em></strong>: elas usam o <strong><em>[DbContext]</em></strong>, que não pode durar mais do que uma única requisição (veja o Capítulo 6);</li>
+<li>linha 22: uma mensagem de erro de conversão (veja o Exemplo 19).</li>
+</ul>
+<h3 id="913-a-entidade-person">9.1.3. <span style="color: #1f4d78">A entidade Person</span></h3>
+<p>O arquivo <strong><em>[Entities/Person.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span>
+<span class="normal"><a href="#__codelineno-6-21">21</a></span>
+<span class="normal"><a href="#__codelineno-6-22">22</a></span>
+<span class="normal"><a href="#__codelineno-6-23">23</a></span>
+<span class="normal"><a href="#__codelineno-6-24">24</a></span>
+<span class="normal"><a href="#__codelineno-6-25">25</a></span>
+<span class="normal"><a href="#__codelineno-6-26">26</a></span>
+<span class="normal"><a href="#__codelineno-6-27">27</a></span>
+<span class="normal"><a href="#__codelineno-6-28">28</a></span>
+<span class="normal"><a href="#__codelineno-6-29">29</a></span>
+<span class="normal"><a href="#__codelineno-6-30">30</a></span>
+<span class="normal"><a href="#__codelineno-6-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">System.ComponentModel.DataAnnotations</span><span class="p">;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">System.ComponentModel.DataAnnotations.Schema</span><span class="p">;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example28.Entities</span><span class="p">;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="c1">// uma linha da tabela [persons]</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="na">[Table("persons")]</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Person</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="p">{</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="w">    </span><span class="c1">// a chave primária: uma chave inteira é, por convenção, gerada pelo banco de dados</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="w">    </span><span class="c1">// (AUTO_INCREMENT); o EF Core lê seu valor de volta após cada INSERT</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="w">    </span><span class="na">[Key]</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="w">    </span><span class="na">[Column("id")]</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15"></a>
+<a id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="w">    </span><span class="c1">// o bloqueio otimista: cada UPDATE carrega a condição "AND version = &lt;valor lido&gt;"</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17"></a><span class="w">    </span><span class="na">[Column("version")]</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18"></a><span class="w">    </span><span class="na">[ConcurrencyCheck]</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Version</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20"></a>
+<a id="__codelineno-6-21" name="__codelineno-6-21"></a><span class="w">    </span><span class="na">[Column("first_name")]</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22"></a><span class="w">    </span><span class="na">[MaxLength(30)]</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24"></a>
+<a id="__codelineno-6-25" name="__codelineno-6-25"></a><span class="w">    </span><span class="na">[Column("last_name")]</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26"></a><span class="w">    </span><span class="na">[MaxLength(30)]</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28"></a>
+<a id="__codelineno-6-29" name="__codelineno-6-29"></a><span class="w">    </span><span class="na">[Column("age")]</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 7: a classe <strong><em>[Person]</em></strong> corresponde à tabela <strong><em>[persons]</em></strong>: cada linha da tabela será um objeto <strong><em>[Person]</em></strong>;</li>
+<li>Linhas 12–14: a chave primária (<strong><em>[[Key]]</em></strong>). <strong><em>[[Column]]</em></strong> especifica o nome da coluna correspondente a cada propriedade;</li>
+<li>linhas 18–19: a coluna de versão. <strong><em>[[ConcurrencyCheck]]</em></strong> instrui o EF Core a adicionar a condição <strong><em>[AND version = &lt;value read&gt;]</em></strong> a cada <strong><em>[UPDATE]</em></strong>: este é o <strong>bloqueio otimista</strong>, explicado mais adiante;</li>
+<li>linha 22: as demais colunas. <strong><em>[[MaxLength]]</em></strong> especifica o tamanho da coluna.</li>
+</ul>
+<h3 id="914-o-dbcontext">9.1.4. <span style="color: #1f4d78">O DbContext</span></h3>
+<p>O arquivo <strong><em>[Data/PersonsDbContext.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span>
+<span class="normal"><a href="#__codelineno-7-14">14</a></span>
+<span class="normal"><a href="#__codelineno-7-15">15</a></span>
+<span class="normal"><a href="#__codelineno-7-16">16</a></span>
+<span class="normal"><a href="#__codelineno-7-17">17</a></span>
+<span class="normal"><a href="#__codelineno-7-18">18</a></span>
+<span class="normal"><a href="#__codelineno-7-19">19</a></span>
+<span class="normal"><a href="#__codelineno-7-20">20</a></span>
+<span class="normal"><a href="#__codelineno-7-21">21</a></span>
+<span class="normal"><a href="#__codelineno-7-22">22</a></span>
+<span class="normal"><a href="#__codelineno-7-23">23</a></span>
+<span class="normal"><a href="#__codelineno-7-24">24</a></span>
+<span class="normal"><a href="#__codelineno-7-25">25</a></span>
+<span class="normal"><a href="#__codelineno-7-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Entities</span><span class="p">;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.EntityFrameworkCore</span><span class="p">;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example28.Data</span><span class="p">;</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="c1">// o DbContext: a conexão com o banco de dados e o rastreamento das entidades lidas</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">PersonsDbContext</span><span class="p">(</span><span class="n">DbContextOptions</span><span class="o">&lt;</span><span class="n">PersonsDbContext</span><span class="o">&gt;</span><span class="w"> </span><span class="n">options</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">DbContext</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="p">{</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">    </span><span class="c1">// a "tabela" de pessoas: é consultada com LINQ</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">DbSet</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Persons</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="p">();</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11"></a>
+<a id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="w">    </span><span class="c1">// logo antes de cada gravação: a versão de toda pessoa MODIFICADA</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="w">    </span><span class="c1">// é incrementada em 1. O UPDATE gerado compara o valor ANTIGO:</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="w">    </span><span class="c1">//   UPDATE persons SET ..., version = 2 WHERE id = 1 AND version = 1</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">SaveChangesAsync</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">acceptAllChangesOnSuccess</span><span class="p">,</span><span class="w"> </span><span class="n">CancellationToken</span><span class="w"> </span><span class="n">cancellationToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="w">        </span><span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">ChangeTracker</span><span class="p">.</span><span class="n">Entries</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="p">())</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">State</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">EntityState</span><span class="p">.</span><span class="n">Modified</span><span class="p">)</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21"></a><span class="w">                </span><span class="n">entry</span><span class="p">.</span><span class="n">Entity</span><span class="p">.</span><span class="n">Version</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">base</span><span class="p">.</span><span class="n">SaveChangesAsync</span><span class="p">(</span><span class="n">acceptAllChangesOnSuccess</span><span class="p">,</span><span class="w"> </span><span class="n">cancellationToken</span><span class="p">);</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 7: o <strong>DbContext</strong> é o objeto central do EF Core. Ele representa uma sessão de trabalho com o banco de dados: abre conexões, envia consultas e <strong>rastreia</strong> as entidades que leu (ele sabe quais foram modificadas);</li>
+<li>Linha 10: um <strong><em>[DbSet&lt;Person&gt;]</em></strong> representa a tabela: ela é consultada por meio de <em>[LINQ]</em>, e entidades são adicionadas a ela;</li>
+<li>Linhas 15–24: <strong><em>[SaveChangesAsync]</em></strong> envia todas as alterações pendentes ao banco de dados. Ele é redefinido para incrementar o número de versão de cada pessoa modificada. <strong><em>[ChangeTracker]</em></strong> rastreia as alterações: para cada entidade rastreada, ele conhece seu estado (<strong><em>[Added]</em></strong>, <strong><em>[Modified]</em></strong>, <strong><em>[Deleted]</em></strong>, <strong><em>[Unchanged]</em></strong>). O EF Core, ao contrário do <em>[TypeORM]</em>, não gerencia por conta própria uma coluna de versão inteira: cabe a nós incrementá-la.</li>
+</ul>
+<h3 id="915-a-camada-dao">9.1.5. <span style="color: #1f4d78">A camada DAO</span></h3>
+<p>O arquivo <strong><em>[Dao/PersonsDao.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span>
+<span class="normal"><a href="#__codelineno-8-35">35</a></span>
+<span class="normal"><a href="#__codelineno-8-36">36</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Data</span><span class="p">;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Entities</span><span class="p">;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.EntityFrameworkCore</span><span class="p">;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example28.Dao</span><span class="p">;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="c1">// a camada DAO: consultas, sem regra de negócio</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">PersonsDao</span><span class="p">(</span><span class="n">PersonsDbContext</span><span class="w"> </span><span class="n">db</span><span class="p">)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="p">{</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">    </span><span class="c1">// SELECT ... FROM persons ORDER BY last_name, first_name</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">ListAsync</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="w">        </span><span class="n">db</span><span class="p">.</span><span class="n">Persons</span><span class="p">.</span><span class="n">AsNoTracking</span><span class="p">().</span><span class="n">OrderBy</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">LastName</span><span class="p">).</span><span class="n">ThenBy</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">FirstName</span><span class="p">).</span><span class="n">ToListAsync</span><span class="p">();</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13"></a>
+<a id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="w">    </span><span class="c1">// SELECT ... FROM persons WHERE id = @id LIMIT 1; null se não existir</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">?&gt;</span><span class="w"> </span><span class="n">ReadAsync</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="w">        </span><span class="n">db</span><span class="p">.</span><span class="n">Persons</span><span class="p">.</span><span class="n">FirstOrDefaultAsync</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17"></a>
+<a id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="w">    </span><span class="c1">// uma pessoa com os mesmos nome e sobrenome, diferente de [exceptId]</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">?&gt;</span><span class="w"> </span><span class="n">NamesakeAsync</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">firstName</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">lastName</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exceptId</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20"></a><span class="w">        </span><span class="n">db</span><span class="p">.</span><span class="n">Persons</span><span class="p">.</span><span class="n">FirstOrDefaultAsync</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">FirstName</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">firstName</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">LastName</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">lastName</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">exceptId</span><span class="p">);</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22"></a><span class="w">    </span><span class="c1">// INSERT se a pessoa for nova (Id = 0), UPDATE das colunas modificadas caso contrário</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">Person</span><span class="w"> </span><span class="n">person</span><span class="p">)</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27"></a><span class="w">            </span><span class="n">db</span><span class="p">.</span><span class="n">Persons</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">person</span><span class="p">);</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">SaveChangesAsync</span><span class="p">();</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">person</span><span class="p">;</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32"></a>
+<a id="__codelineno-8-33" name="__codelineno-8-33"></a><span class="w">    </span><span class="c1">// DELETE FROM persons WHERE id = @id, sem ler a pessoa antes</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">DeleteAsync</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35"></a><span class="w">        </span><span class="n">db</span><span class="p">.</span><span class="n">Persons</span><span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">).</span><span class="n">ExecuteDeleteAsync</span><span class="p">();</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 8: o DAO recebe o <strong><em>[DbContext]</em></strong> por injeção;</li>
+<li>Linhas 11–12: uma consulta <em>[LINQ]</em>, traduzida para SQL pelo EF Core. Nada é enviado ao banco de dados antes da chamada a <strong><em>[ToListAsync]</em></strong>, que executa a consulta e retorna a lista. <strong><em>[AsNoTracking()]</em></strong> indica que essas entidades não serão modificadas: <strong><em>[DbContext]</em></strong> não precisa rastreá-las;</li>
+<li>linhas 15–16: o primeiro elemento que satisfaz a condição, ou <strong><em>[null]</em></strong>;</li>
+<li>Linhas 19–20: uma pessoa com o mesmo nome e sobrenome, diferente de <strong><em>[exceptId]</em></strong>: útil para modificar um registro, que não deve entrar em conflito consigo mesmo. A comparação é feita pelo <em>[MySQL]</em>, portanto de acordo com a collation do banco de dados: sem distinguir maiúsculas de minúsculas nem acentos;</li>
+<li>Linhas 23–30: uma nova pessoa (<strong><em>[Id]</em></strong> igual a 0) é adicionada ao <strong><em>[DbSet]</em></strong>; <strong><em>[SaveChangesAsync]</em></strong> então cria um <strong><em>[INSERT]</em></strong> e relê o identificador atribuído pelo banco de dados. Uma pessoa lida por este mesmo <strong><em>[DbContext]</em></strong> e modificada é detectada pelo rastreamento de alterações: <strong><em>[SaveChangesAsync]</em></strong> cria um <strong><em>[UPDATE]</em></strong> contendo apenas as colunas modificadas;</li>
+<li>Linhas 34–35: <strong><em>[ExecuteDeleteAsync]</em></strong> envia um <strong><em>[DELETE]</em></strong> diretamente ao banco de dados, sem ler os registros antes.</li>
+</ul>
+<p>A camada DAO não contém regras: apenas consultas. Esses métodos são <strong>assíncronos</strong> (<strong><em>[Task]</em></strong>, <strong><em>[async]</em></strong> / <strong><em>[await]</em></strong>): enquanto o banco de dados processa, a thread é liberada e atende outras requisições.</p>
+<h3 id="916-a-camada-de-negocio">9.1.6. <span style="color: #1f4d78">A camada de negócio</span></h3>
+<p>O arquivo <strong><em>[Business/BusinessException.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example28.Business</span><span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="c1">// uma regra de negócio rejeita a operação: a mensagem é destinada ao usuário</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">BusinessException</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Uma <strong><em>[BusinessException]</em></strong> indica que uma regra de negócio rejeitou uma operação. Não se trata de um erro de programa: a mensagem se destina ao usuário.</p>
+<p>O arquivo <strong><em>[Business/PersonsBusiness.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span>
+<span class="normal"><a href="#__codelineno-10-13">13</a></span>
+<span class="normal"><a href="#__codelineno-10-14">14</a></span>
+<span class="normal"><a href="#__codelineno-10-15">15</a></span>
+<span class="normal"><a href="#__codelineno-10-16">16</a></span>
+<span class="normal"><a href="#__codelineno-10-17">17</a></span>
+<span class="normal"><a href="#__codelineno-10-18">18</a></span>
+<span class="normal"><a href="#__codelineno-10-19">19</a></span>
+<span class="normal"><a href="#__codelineno-10-20">20</a></span>
+<span class="normal"><a href="#__codelineno-10-21">21</a></span>
+<span class="normal"><a href="#__codelineno-10-22">22</a></span>
+<span class="normal"><a href="#__codelineno-10-23">23</a></span>
+<span class="normal"><a href="#__codelineno-10-24">24</a></span>
+<span class="normal"><a href="#__codelineno-10-25">25</a></span>
+<span class="normal"><a href="#__codelineno-10-26">26</a></span>
+<span class="normal"><a href="#__codelineno-10-27">27</a></span>
+<span class="normal"><a href="#__codelineno-10-28">28</a></span>
+<span class="normal"><a href="#__codelineno-10-29">29</a></span>
+<span class="normal"><a href="#__codelineno-10-30">30</a></span>
+<span class="normal"><a href="#__codelineno-10-31">31</a></span>
+<span class="normal"><a href="#__codelineno-10-32">32</a></span>
+<span class="normal"><a href="#__codelineno-10-33">33</a></span>
+<span class="normal"><a href="#__codelineno-10-34">34</a></span>
+<span class="normal"><a href="#__codelineno-10-35">35</a></span>
+<span class="normal"><a href="#__codelineno-10-36">36</a></span>
+<span class="normal"><a href="#__codelineno-10-37">37</a></span>
+<span class="normal"><a href="#__codelineno-10-38">38</a></span>
+<span class="normal"><a href="#__codelineno-10-39">39</a></span>
+<span class="normal"><a href="#__codelineno-10-40">40</a></span>
+<span class="normal"><a href="#__codelineno-10-41">41</a></span>
+<span class="normal"><a href="#__codelineno-10-42">42</a></span>
+<span class="normal"><a href="#__codelineno-10-43">43</a></span>
+<span class="normal"><a href="#__codelineno-10-44">44</a></span>
+<span class="normal"><a href="#__codelineno-10-45">45</a></span>
+<span class="normal"><a href="#__codelineno-10-46">46</a></span>
+<span class="normal"><a href="#__codelineno-10-47">47</a></span>
+<span class="normal"><a href="#__codelineno-10-48">48</a></span>
+<span class="normal"><a href="#__codelineno-10-49">49</a></span>
+<span class="normal"><a href="#__codelineno-10-50">50</a></span>
+<span class="normal"><a href="#__codelineno-10-51">51</a></span>
+<span class="normal"><a href="#__codelineno-10-52">52</a></span>
+<span class="normal"><a href="#__codelineno-10-53">53</a></span>
+<span class="normal"><a href="#__codelineno-10-54">54</a></span>
+<span class="normal"><a href="#__codelineno-10-55">55</a></span>
+<span class="normal"><a href="#__codelineno-10-56">56</a></span>
+<span class="normal"><a href="#__codelineno-10-57">57</a></span>
+<span class="normal"><a href="#__codelineno-10-58">58</a></span>
+<span class="normal"><a href="#__codelineno-10-59">59</a></span>
+<span class="normal"><a href="#__codelineno-10-60">60</a></span>
+<span class="normal"><a href="#__codelineno-10-61">61</a></span>
+<span class="normal"><a href="#__codelineno-10-62">62</a></span>
+<span class="normal"><a href="#__codelineno-10-63">63</a></span>
+<span class="normal"><a href="#__codelineno-10-64">64</a></span>
+<span class="normal"><a href="#__codelineno-10-65">65</a></span>
+<span class="normal"><a href="#__codelineno-10-66">66</a></span>
+<span class="normal"><a href="#__codelineno-10-67">67</a></span>
+<span class="normal"><a href="#__codelineno-10-68">68</a></span>
+<span class="normal"><a href="#__codelineno-10-69">69</a></span>
+<span class="normal"><a href="#__codelineno-10-70">70</a></span>
+<span class="normal"><a href="#__codelineno-10-71">71</a></span>
+<span class="normal"><a href="#__codelineno-10-72">72</a></span>
+<span class="normal"><a href="#__codelineno-10-73">73</a></span>
+<span class="normal"><a href="#__codelineno-10-74">74</a></span>
+<span class="normal"><a href="#__codelineno-10-75">75</a></span>
+<span class="normal"><a href="#__codelineno-10-76">76</a></span>
+<span class="normal"><a href="#__codelineno-10-77">77</a></span>
+<span class="normal"><a href="#__codelineno-10-78">78</a></span>
+<span class="normal"><a href="#__codelineno-10-79">79</a></span>
+<span class="normal"><a href="#__codelineno-10-80">80</a></span>
+<span class="normal"><a href="#__codelineno-10-81">81</a></span>
+<span class="normal"><a href="#__codelineno-10-82">82</a></span>
+<span class="normal"><a href="#__codelineno-10-83">83</a></span>
+<span class="normal"><a href="#__codelineno-10-84">84</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Dao</span><span class="p">;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Data</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Entities</span><span class="p">;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.EntityFrameworkCore</span><span class="p">;</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="k">using</span><span class="w"> </span><span class="nn">MySqlConnector</span><span class="p">;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example28.Business</span><span class="p">;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="k">public</span><span class="w"> </span><span class="k">record</span><span class="w"> </span><span class="nf">PersonData</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">LastName</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Age</span><span class="p">);</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10"></a>
+<a id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="c1">// a camada de NEGÓCIO: as regras de negócio, e somente elas</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">PersonsBusiness</span><span class="p">(</span><span class="n">PersonsDao</span><span class="w"> </span><span class="n">dao</span><span class="p">,</span><span class="w"> </span><span class="n">PersonsDbContext</span><span class="w"> </span><span class="n">db</span><span class="p">)</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="p">{</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Namesake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"A person already has these first and last names."</span><span class="p">;</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">ListAsync</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="n">ListAsync</span><span class="p">();</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17"></a>
+<a id="__codelineno-10-18" name="__codelineno-10-18"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ReadAsync</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="n">ReadAsync</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BusinessException</span><span class="p">(</span><span class="s">"This person does not exist (anymore)."</span><span class="p">);</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20"></a>
+<a id="__codelineno-10-21" name="__codelineno-10-21"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="n">AddAsync</span><span class="p">(</span><span class="n">PersonData</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22"></a><span class="w">        </span><span class="n">TransactionAsync</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24"></a><span class="w">            </span><span class="c1">// regra 1: não pode haver duas pessoas com os mesmos nome e sobrenome</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="n">NamesakeAsync</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">LastName</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27"></a><span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">BusinessException</span><span class="p">(</span><span class="n">Namesake</span><span class="p">);</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">LastName</span><span class="p">,</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">Age</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">person</span><span class="p">);</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31"></a><span class="w">        </span><span class="p">});</span>
+<a id="__codelineno-10-32" name="__codelineno-10-32"></a>
+<a id="__codelineno-10-33" name="__codelineno-10-33"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="n">EditAsync</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">version</span><span class="p">,</span><span class="w"> </span><span class="n">PersonData</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-10-34" name="__codelineno-10-34"></a><span class="w">        </span><span class="n">TransactionAsync</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-10-35" name="__codelineno-10-35"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-10-36" name="__codelineno-10-36"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">ReadAsync</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-10-37" name="__codelineno-10-37"></a><span class="w">            </span><span class="c1">// regra 2: não modificamos um registro modificado nesse meio-tempo por outra pessoa</span>
+<a id="__codelineno-10-38" name="__codelineno-10-38"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">Version</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">version</span><span class="p">)</span>
+<a id="__codelineno-10-39" name="__codelineno-10-39"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-10-40" name="__codelineno-10-40"></a><span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">BusinessException</span><span class="p">(</span><span class="s">"This record has been modified meanwhile: reload it."</span><span class="p">);</span>
+<a id="__codelineno-10-41" name="__codelineno-10-41"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-10-42" name="__codelineno-10-42"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="n">NamesakeAsync</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">LastName</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
+<a id="__codelineno-10-43" name="__codelineno-10-43"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-10-44" name="__codelineno-10-44"></a><span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">BusinessException</span><span class="p">(</span><span class="n">Namesake</span><span class="p">);</span>
+<a id="__codelineno-10-45" name="__codelineno-10-45"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-10-46" name="__codelineno-10-46"></a><span class="w">            </span><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">FirstName</span><span class="p">;</span>
+<a id="__codelineno-10-47" name="__codelineno-10-47"></a><span class="w">            </span><span class="n">person</span><span class="p">.</span><span class="n">LastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">LastName</span><span class="p">;</span>
+<a id="__codelineno-10-48" name="__codelineno-10-48"></a><span class="w">            </span><span class="n">person</span><span class="p">.</span><span class="n">Age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">Age</span><span class="p">;</span>
+<a id="__codelineno-10-49" name="__codelineno-10-49"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">person</span><span class="p">);</span>
+<a id="__codelineno-10-50" name="__codelineno-10-50"></a><span class="w">        </span><span class="p">});</span>
+<a id="__codelineno-10-51" name="__codelineno-10-51"></a>
+<a id="__codelineno-10-52" name="__codelineno-10-52"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="n">DeleteAsync</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<a id="__codelineno-10-53" name="__codelineno-10-53"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-10-54" name="__codelineno-10-54"></a><span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">ReadAsync</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-10-55" name="__codelineno-10-55"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="n">DeleteAsync</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-10-56" name="__codelineno-10-56"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">person</span><span class="p">;</span>
+<a id="__codelineno-10-57" name="__codelineno-10-57"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-58" name="__codelineno-10-58"></a>
+<a id="__codelineno-10-59" name="__codelineno-10-59"></a><span class="w">    </span><span class="c1">// [work] é executado dentro de uma transação: COMMIT se tiver sucesso, ROLLBACK</span>
+<a id="__codelineno-10-60" name="__codelineno-10-60"></a><span class="w">    </span><span class="c1">// se lançar uma exceção. Os erros do banco de dados viram BusinessExceptions</span>
+<a id="__codelineno-10-61" name="__codelineno-10-61"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span><span class="w"> </span><span class="n">TransactionAsync</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Func</span><span class="o">&lt;</span><span class="n">Task</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">work</span><span class="p">)</span>
+<a id="__codelineno-10-62" name="__codelineno-10-62"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-10-63" name="__codelineno-10-63"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">transaction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">Database</span><span class="p">.</span><span class="n">BeginTransactionAsync</span><span class="p">();</span><span class="w"> </span><span class="c1">// START TRANSACTION</span>
+<a id="__codelineno-10-64" name="__codelineno-10-64"></a><span class="w">        </span><span class="k">try</span>
+<a id="__codelineno-10-65" name="__codelineno-10-65"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-10-66" name="__codelineno-10-66"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">work</span><span class="p">();</span>
+<a id="__codelineno-10-67" name="__codelineno-10-67"></a><span class="w">            </span><span class="k">await</span><span class="w"> </span><span class="n">transaction</span><span class="p">.</span><span class="n">CommitAsync</span><span class="p">();</span><span class="w"> </span><span class="c1">// COMMIT</span>
+<a id="__codelineno-10-68" name="__codelineno-10-68"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<a id="__codelineno-10-69" name="__codelineno-10-69"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-10-70" name="__codelineno-10-70"></a><span class="w">        </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">DbUpdateConcurrencyException</span><span class="p">)</span>
+<a id="__codelineno-10-71" name="__codelineno-10-71"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-10-72" name="__codelineno-10-72"></a><span class="w">            </span><span class="c1">// o UPDATE "WHERE id = ... AND version = ..." não modificou nenhuma linha</span>
+<a id="__codelineno-10-73" name="__codelineno-10-73"></a><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">BusinessException</span><span class="p">(</span><span class="s">"This record has been modified meanwhile: reload it."</span><span class="p">);</span>
+<a id="__codelineno-10-74" name="__codelineno-10-74"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-10-75" name="__codelineno-10-75"></a><span class="w">        </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">DbUpdateException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">InnerException</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">MySqlException</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ErrorCode</span><span class="p">:</span><span class="w"> </span><span class="n">MySqlErrorCode</span><span class="p">.</span><span class="n">DuplicateKeyEntry</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">sqlError</span>
+<a id="__codelineno-10-76" name="__codelineno-10-76"></a><span class="w">                                          </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">sqlError</span><span class="p">.</span><span class="n">Message</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="s">"unq_persons_first_name_last_name"</span><span class="p">))</span>
+<a id="__codelineno-10-77" name="__codelineno-10-77"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-10-78" name="__codelineno-10-78"></a><span class="w">            </span><span class="c1">// duas adições simultâneas: a restrição de unicidade do banco de dados rejeitou a segunda</span>
+<a id="__codelineno-10-79" name="__codelineno-10-79"></a><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">BusinessException</span><span class="p">(</span><span class="n">Namesake</span><span class="p">);</span>
+<a id="__codelineno-10-80" name="__codelineno-10-80"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-10-81" name="__codelineno-10-81"></a><span class="w">        </span><span class="c1">// qualquer outra exceção segue seu caminho; a transação, fechada</span>
+<a id="__codelineno-10-82" name="__codelineno-10-82"></a><span class="w">        </span><span class="c1">// sem COMMIT pelo "await using", é cancelada (ROLLBACK)</span>
+<a id="__codelineno-10-83" name="__codelineno-10-83"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-84" name="__codelineno-10-84"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Vamos detalhar este código:</p>
+<ul>
+<li>linha 9: os dados de uma pessoa, como transmitidos pela camada web;</li>
+<li>linha 12: a camada de negócio usa o DAO e o <strong><em>[DbContext]</em></strong> para abrir transações. Ambos são serviços <strong><em>[Scoped]</em></strong>: durante uma requisição, o DAO e a camada de negócio recebem o <strong>mesmo</strong> <strong><em>[DbContext]</em></strong>, e portanto a mesma conexão e a mesma transação. (Com o <em>[TypeORM]</em>, o objeto de transação precisava ser passado a cada método do DAO);</li>
+<li>linhas 18–19: uma pessoa ausente é uma <strong><em>[BusinessException]</em></strong>. O operador <strong><em>[??]</em></strong> fornece um valor de substituição; <strong><em>[throw]</em></strong> pode servir como substituto;</li>
+<li>linhas 21–30: a adição, dentro de uma transação. Regra: duas pessoas não podem ter o mesmo nome e sobrenome. Isso é verificado antes da gravação para exibir uma mensagem clara;</li>
+<li>linhas 33–49: a atualização. Regra adicional: o bloqueio otimista (linhas 38–40). O formulário de atualização recuperou a versão do registro como estava quando o formulário foi aberto. Se ela mudou nesse meio-tempo (outro usuário modificou o mesmo registro), a atualização é rejeitada em vez de sobrescrever silenciosamente o trabalho do outro usuário;</li>
+<li>linhas 61–67: <strong><em>[BeginTransactionAsync]</em></strong> abre uma transação (<strong><em>[START TRANSACTION]</em></strong>) e <strong><em>[CommitAsync]</em></strong> a confirma (<strong><em>[COMMIT]</em></strong>). <strong><em>[await using]</em></strong> fecha a transação ao sair do bloco, aconteça o que acontecer: se ela for fechada sem <strong><em>[COMMIT]</em></strong>, é revertida (<strong><em>[ROLLBACK]</em></strong>). Assim, uma exceção lançada por <strong><em>[work]</em></strong> (inclusive uma <strong><em>[BusinessException]</em></strong>) reverte tudo o que foi feito;</li>
+<li>linhas 70–73: a verificação de versão mencionada anteriormente nem sempre é suficiente: dois usuários podem salvar o mesmo registro ao mesmo tempo, e ambos passam na verificação. O <strong><em>[UPDATE ... WHERE id = ... AND version = ...]</em></strong> do segundo usuário então não modifica nenhuma linha; o EF Core detecta isso e lança uma <strong><em>[DbUpdateConcurrencyException]</em></strong>, que se torna a mesma <strong><em>[BusinessException]</em></strong>;</li>
+<li>Linhas 75–79: da mesma forma, duas adições simultâneas da mesma pessoa passam na verificação de homônimos, mas a restrição de unicidade do banco de dados não permite que ambas sejam adicionadas. O erro do <em>[MySQL]</em> (código <strong><em>[DuplicateKeyEntry]</em></strong>, nº 1062) ocorre aninhado dentro de uma <strong><em>[DbUpdateException]</em></strong> (propriedade <strong><em>[InnerException]</em></strong>); sua mensagem inclui o nome da restrição. A cláusula <strong><em>[when]</em></strong> intercepta a exceção somente se a condição for verdadeira. <strong><em>[is MySqlException { ErrorCode: ... } sqlError]</em></strong> é um <strong>filtro de padrão (pattern)</strong>: ele testa o tipo e o valor de uma propriedade e armazena o objeto em uma variável.</li>
+</ul>
+<h3 id="917-a-camada-web">9.1.7. <span style="color: #1f4d78">A camada web</span></h3>
+<p>O arquivo <strong><em>[Models/PersonForm.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span>
+<span class="normal"><a href="#__codelineno-11-19">19</a></span>
+<span class="normal"><a href="#__codelineno-11-20">20</a></span>
+<span class="normal"><a href="#__codelineno-11-21">21</a></span>
+<span class="normal"><a href="#__codelineno-11-22">22</a></span>
+<span class="normal"><a href="#__codelineno-11-23">23</a></span>
+<span class="normal"><a href="#__codelineno-11-24">24</a></span>
+<span class="normal"><a href="#__codelineno-11-25">25</a></span>
+<span class="normal"><a href="#__codelineno-11-26">26</a></span>
+<span class="normal"><a href="#__codelineno-11-27">27</a></span>
+<span class="normal"><a href="#__codelineno-11-28">28</a></span>
+<span class="normal"><a href="#__codelineno-11-29">29</a></span>
+<span class="normal"><a href="#__codelineno-11-30">30</a></span>
+<span class="normal"><a href="#__codelineno-11-31">31</a></span>
+<span class="normal"><a href="#__codelineno-11-32">32</a></span>
+<span class="normal"><a href="#__codelineno-11-33">33</a></span>
+<span class="normal"><a href="#__codelineno-11-34">34</a></span>
+<span class="normal"><a href="#__codelineno-11-35">35</a></span>
+<span class="normal"><a href="#__codelineno-11-36">36</a></span>
+<span class="normal"><a href="#__codelineno-11-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">System.ComponentModel.DataAnnotations</span><span class="p">;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example28.Models</span><span class="p">;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="c1">// os campos do formulário e suas restrições (veja o exemplo 19)</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PersonForm</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="p">{</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">string?</span><span class="w"> </span><span class="n">firstName</span><span class="p">;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">string?</span><span class="w"> </span><span class="n">lastName</span><span class="p">;</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a>
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="w">    </span><span class="na">[Required(ErrorMessage = "The first name is required.")]</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="w">    </span><span class="na">[MaxLength(30, ErrorMessage = "30 characters at most.")]</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string?</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">firstName</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">firstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">value</span><span class="o">?.</span><span class="n">Trim</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14"></a>
+<a id="__codelineno-11-15" name="__codelineno-11-15"></a><span class="w">    </span><span class="na">[Required(ErrorMessage = "The last name is required.")]</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="w">    </span><span class="na">[MaxLength(30, ErrorMessage = "30 characters at most.")]</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string?</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">lastName</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">lastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">value</span><span class="o">?.</span><span class="n">Trim</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18"></a>
+<a id="__codelineno-11-19" name="__codelineno-11-19"></a><span class="w">    </span><span class="na">[Required(ErrorMessage = "The age is required.")]</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20"></a><span class="w">    </span><span class="na">[Range(0, 150, ErrorMessage = "The age must be between 0 and 150.")]</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int?</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-11-22" name="__codelineno-11-22"></a>
+<a id="__codelineno-11-23" name="__codelineno-11-23"></a><span class="w">    </span><span class="c1">// a versão do registro, carregada por um campo oculto (somente na edição)</span>
+<a id="__codelineno-11-24" name="__codelineno-11-24"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int?</span><span class="w"> </span><span class="n">Version</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-11-25" name="__codelineno-11-25"></a><span class="p">}</span>
+<a id="__codelineno-11-26" name="__codelineno-11-26"></a>
+<a id="__codelineno-11-27" name="__codelineno-11-27"></a><span class="c1">// o modelo da view do formulário</span>
+<a id="__codelineno-11-28" name="__codelineno-11-28"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FormView</span>
+<a id="__codelineno-11-29" name="__codelineno-11-29"></a><span class="p">{</span>
+<a id="__codelineno-11-30" name="__codelineno-11-30"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Title</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">init</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c1">// "Add a person"...</span>
+<a id="__codelineno-11-31" name="__codelineno-11-31"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Action</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">init</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// o endereço para onde o formulário é enviado</span>
+<a id="__codelineno-11-32" name="__codelineno-11-32"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">PersonForm</span><span class="w"> </span><span class="n">Values</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">init</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="p">();</span>
+<a id="__codelineno-11-33" name="__codelineno-11-33"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Dictionary</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Errors</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">init</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="p">(</span><span class="n">StringComparer</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">);</span>
+<a id="__codelineno-11-34" name="__codelineno-11-34"></a><span class="p">}</span>
+<a id="__codelineno-11-35" name="__codelineno-11-35"></a>
+<a id="__codelineno-11-36" name="__codelineno-11-36"></a><span class="c1">// o modelo da partial view _Field</span>
+<a id="__codelineno-11-37" name="__codelineno-11-37"></a><span class="k">public</span><span class="w"> </span><span class="k">record</span><span class="w"> </span><span class="nf">FieldModel</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Label</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="kt">string?</span><span class="w"> </span><span class="n">Value</span><span class="p">,</span><span class="w"> </span><span class="kt">string?</span><span class="w"> </span><span class="n">Error</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>O formulário e suas restrições (veja o Exemplo 19), incluindo a versão do registro (linha 24); o template da view do formulário, usado para adicionar e modificar registros (título e endereço de envio diferentes, [Action]); o template da view parcial <strong><em>[_Field]</em></strong> (veja o Exemplo 19).</p>
+<p>O arquivo <strong><em>[Controllers/PersonsController.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-12-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-12-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-12-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-12-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-12-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-12-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-12-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-12-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-12-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-12-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-12-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-12-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-12-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-12-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-12-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-12-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-12-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-12-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-12-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-12-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-12-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-12-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-12-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-12-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-12-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-12-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-12-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-12-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-12-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-12-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-12-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-12-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-12-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-12-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-12-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-12-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-12-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-12-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-12-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-12-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-12-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-12-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-12-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-12-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-12-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-12-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-12-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-12-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-12-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-12-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-12-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-12-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-12-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-12-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-12-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-12-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-12-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-12-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-12-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-12-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-12-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-12-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-12-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-12-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-12-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-12-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-12-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-12-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-12-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-12-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-12-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-12-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-12-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-12-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-12-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-12-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-12-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-12-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-12-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-12-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-12-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-12-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-12-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-12-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-12-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-12-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-12-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-12-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-12-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-12-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-12-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-12-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-12-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-12-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-12-100">100</a></span>
+<span class="normal"><a href="#__codelineno-12-101">101</a></span>
+<span class="normal"><a href="#__codelineno-12-102">102</a></span>
+<span class="normal"><a href="#__codelineno-12-103">103</a></span>
+<span class="normal"><a href="#__codelineno-12-104">104</a></span>
+<span class="normal"><a href="#__codelineno-12-105">105</a></span>
+<span class="normal"><a href="#__codelineno-12-106">106</a></span>
+<span class="normal"><a href="#__codelineno-12-107">107</a></span>
+<span class="normal"><a href="#__codelineno-12-108">108</a></span>
+<span class="normal"><a href="#__codelineno-12-109">109</a></span>
+<span class="normal"><a href="#__codelineno-12-110">110</a></span>
+<span class="normal"><a href="#__codelineno-12-111">111</a></span>
+<span class="normal"><a href="#__codelineno-12-112">112</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Business</span><span class="p">;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example28.Models</span><span class="p">;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example28.Controllers</span><span class="p">;</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="c1">// a camada WEB: ela só conhece a camada de negócio</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">PersonsController</span><span class="p">(</span><span class="n">PersonsBusiness</span><span class="w"> </span><span class="n">business</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="p">{</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="w">    </span><span class="na">[HttpGet("/")]</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">Home</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">RedirectToAction</span><span class="p">(</span><span class="k">nameof</span><span class="p">(</span><span class="n">List</span><span class="p">));</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12"></a>
+<a id="__codelineno-12-13" name="__codelineno-12-13"></a><span class="w">    </span><span class="na">[HttpGet("persons")]</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IActionResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">()</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">View</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="n">business</span><span class="p">.</span><span class="n">ListAsync</span><span class="p">());</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18"></a>
+<a id="__codelineno-12-19" name="__codelineno-12-19"></a><span class="w">    </span><span class="na">[HttpGet("persons/add")]</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">AddForm</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Form</span><span class="p">(</span><span class="n">BuildView</span><span class="p">(</span><span class="s">"Add a person"</span><span class="p">,</span><span class="w"> </span><span class="s">"/persons/add"</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="p">()));</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21"></a>
+<a id="__codelineno-12-22" name="__codelineno-12-22"></a><span class="w">    </span><span class="na">[HttpPost("persons/add")]</span>
+<a id="__codelineno-12-23" name="__codelineno-12-23"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IActionResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Add</span><span class="p">(</span><span class="n">PersonForm</span><span class="w"> </span><span class="n">input</span><span class="p">)</span>
+<a id="__codelineno-12-24" name="__codelineno-12-24"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-12-25" name="__codelineno-12-25"></a><span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BuildView</span><span class="p">(</span><span class="s">"Add a person"</span><span class="p">,</span><span class="w"> </span><span class="s">"/persons/add"</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span>
+<a id="__codelineno-12-26" name="__codelineno-12-26"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">ModelState</span><span class="p">.</span><span class="n">IsValid</span><span class="p">)</span>
+<a id="__codelineno-12-27" name="__codelineno-12-27"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-28" name="__codelineno-12-28"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">Form</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
+<a id="__codelineno-12-29" name="__codelineno-12-29"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-30" name="__codelineno-12-30"></a><span class="w">        </span><span class="k">try</span>
+<a id="__codelineno-12-31" name="__codelineno-12-31"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-32" name="__codelineno-12-32"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">business</span><span class="p">.</span><span class="n">AddAsync</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PersonData</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">FirstName</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="n">LastName</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="n">Age</span><span class="o">!</span><span class="p">.</span><span class="n">Value</span><span class="p">));</span>
+<a id="__codelineno-12-33" name="__codelineno-12-33"></a><span class="w">            </span><span class="n">TempData</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$"{person.FirstName} {person.LastName} has been added."</span><span class="p">;</span>
+<a id="__codelineno-12-34" name="__codelineno-12-34"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">RedirectToAction</span><span class="p">(</span><span class="k">nameof</span><span class="p">(</span><span class="n">List</span><span class="p">));</span>
+<a id="__codelineno-12-35" name="__codelineno-12-35"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-36" name="__codelineno-12-36"></a><span class="w">        </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">BusinessException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span>
+<a id="__codelineno-12-37" name="__codelineno-12-37"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-38" name="__codelineno-12-38"></a><span class="w">            </span><span class="c1">// uma regra de negócio recusa: exibimos o formulário novamente, com a mensagem no pé da página</span>
+<a id="__codelineno-12-39" name="__codelineno-12-39"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">Form</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+<a id="__codelineno-12-40" name="__codelineno-12-40"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-41" name="__codelineno-12-41"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-42" name="__codelineno-12-42"></a>
+<a id="__codelineno-12-43" name="__codelineno-12-43"></a><span class="w">    </span><span class="na">[HttpGet("persons/{id:int}/edit")]</span>
+<a id="__codelineno-12-44" name="__codelineno-12-44"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IActionResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">EditForm</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<a id="__codelineno-12-45" name="__codelineno-12-45"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-12-46" name="__codelineno-12-46"></a><span class="w">        </span><span class="k">try</span>
+<a id="__codelineno-12-47" name="__codelineno-12-47"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-48" name="__codelineno-12-48"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">business</span><span class="p">.</span><span class="n">ReadAsync</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-12-49" name="__codelineno-12-49"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PersonForm</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span><span class="w"> </span><span class="n">LastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">LastName</span><span class="p">,</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Age</span><span class="p">,</span><span class="w"> </span><span class="n">Version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Version</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-12-50" name="__codelineno-12-50"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">Form</span><span class="p">(</span><span class="n">BuildView</span><span class="p">(</span><span class="s">"Edit a person"</span><span class="p">,</span><span class="w"> </span><span class="s">$"/persons/{id}/edit"</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">));</span>
+<a id="__codelineno-12-51" name="__codelineno-12-51"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-52" name="__codelineno-12-52"></a><span class="w">        </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">BusinessException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span>
+<a id="__codelineno-12-53" name="__codelineno-12-53"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-54" name="__codelineno-12-54"></a><span class="w">            </span><span class="n">TempData</span><span class="p">[</span><span class="s">"Error"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">;</span>
+<a id="__codelineno-12-55" name="__codelineno-12-55"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">RedirectToAction</span><span class="p">(</span><span class="k">nameof</span><span class="p">(</span><span class="n">List</span><span class="p">));</span>
+<a id="__codelineno-12-56" name="__codelineno-12-56"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-57" name="__codelineno-12-57"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-58" name="__codelineno-12-58"></a>
+<a id="__codelineno-12-59" name="__codelineno-12-59"></a><span class="w">    </span><span class="na">[HttpPost("persons/{id:int}/edit")]</span>
+<a id="__codelineno-12-60" name="__codelineno-12-60"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IActionResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Edit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PersonForm</span><span class="w"> </span><span class="n">input</span><span class="p">)</span>
+<a id="__codelineno-12-61" name="__codelineno-12-61"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-12-62" name="__codelineno-12-62"></a><span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BuildView</span><span class="p">(</span><span class="s">"Edit a person"</span><span class="p">,</span><span class="w"> </span><span class="s">$"/persons/{id}/edit"</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span>
+<a id="__codelineno-12-63" name="__codelineno-12-63"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">ModelState</span><span class="p">.</span><span class="n">IsValid</span><span class="p">)</span>
+<a id="__codelineno-12-64" name="__codelineno-12-64"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-65" name="__codelineno-12-65"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">Form</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
+<a id="__codelineno-12-66" name="__codelineno-12-66"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-67" name="__codelineno-12-67"></a><span class="w">        </span><span class="k">try</span>
+<a id="__codelineno-12-68" name="__codelineno-12-68"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-69" name="__codelineno-12-69"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PersonData</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">FirstName</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="n">LastName</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="n">Age</span><span class="o">!</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+<a id="__codelineno-12-70" name="__codelineno-12-70"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">business</span><span class="p">.</span><span class="n">EditAsync</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="n">Version</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<a id="__codelineno-12-71" name="__codelineno-12-71"></a><span class="w">            </span><span class="n">TempData</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$"{person.FirstName} {person.LastName} has been edited."</span><span class="p">;</span>
+<a id="__codelineno-12-72" name="__codelineno-12-72"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">RedirectToAction</span><span class="p">(</span><span class="k">nameof</span><span class="p">(</span><span class="n">List</span><span class="p">));</span>
+<a id="__codelineno-12-73" name="__codelineno-12-73"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-74" name="__codelineno-12-74"></a><span class="w">        </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">BusinessException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span>
+<a id="__codelineno-12-75" name="__codelineno-12-75"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-76" name="__codelineno-12-76"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">Form</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+<a id="__codelineno-12-77" name="__codelineno-12-77"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-78" name="__codelineno-12-78"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-79" name="__codelineno-12-79"></a>
+<a id="__codelineno-12-80" name="__codelineno-12-80"></a><span class="w">    </span><span class="na">[HttpPost("persons/{id:int}/delete")]</span>
+<a id="__codelineno-12-81" name="__codelineno-12-81"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IActionResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Delete</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<a id="__codelineno-12-82" name="__codelineno-12-82"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-12-83" name="__codelineno-12-83"></a><span class="w">        </span><span class="k">try</span>
+<a id="__codelineno-12-84" name="__codelineno-12-84"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-85" name="__codelineno-12-85"></a><span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">business</span><span class="p">.</span><span class="n">DeleteAsync</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-12-86" name="__codelineno-12-86"></a><span class="w">            </span><span class="n">TempData</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$"{person.FirstName} {person.LastName} has been deleted."</span><span class="p">;</span>
+<a id="__codelineno-12-87" name="__codelineno-12-87"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-88" name="__codelineno-12-88"></a><span class="w">        </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">BusinessException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span>
+<a id="__codelineno-12-89" name="__codelineno-12-89"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-12-90" name="__codelineno-12-90"></a><span class="w">            </span><span class="c1">// nenhum formulário a exibir novamente: o erro também viaja em TempData</span>
+<a id="__codelineno-12-91" name="__codelineno-12-91"></a><span class="w">            </span><span class="n">TempData</span><span class="p">[</span><span class="s">"Error"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">;</span>
+<a id="__codelineno-12-92" name="__codelineno-12-92"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-12-93" name="__codelineno-12-93"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">RedirectToAction</span><span class="p">(</span><span class="k">nameof</span><span class="p">(</span><span class="n">List</span><span class="p">));</span>
+<a id="__codelineno-12-94" name="__codelineno-12-94"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-95" name="__codelineno-12-95"></a>
+<a id="__codelineno-12-96" name="__codelineno-12-96"></a><span class="w">    </span><span class="c1">// o modelo da view do formulário, com os erros do ModelState ordenados por campo</span>
+<a id="__codelineno-12-97" name="__codelineno-12-97"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="n">FormView</span><span class="w"> </span><span class="nf">BuildView</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">action</span><span class="p">,</span><span class="w"> </span><span class="n">PersonForm</span><span class="w"> </span><span class="n">values</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="p">()</span>
+<a id="__codelineno-12-98" name="__codelineno-12-98"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-12-99" name="__codelineno-12-99"></a><span class="w">        </span><span class="n">Title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">title</span><span class="p">,</span>
+<a id="__codelineno-12-100" name="__codelineno-12-100"></a><span class="w">        </span><span class="n">Action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">action</span><span class="p">,</span>
+<a id="__codelineno-12-101" name="__codelineno-12-101"></a><span class="w">        </span><span class="n">Values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">values</span><span class="p">,</span>
+<a id="__codelineno-12-102" name="__codelineno-12-102"></a><span class="w">        </span><span class="n">Errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ModelState</span>
+<a id="__codelineno-12-103" name="__codelineno-12-103"></a><span class="w">            </span><span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">Value</span><span class="o">!</span><span class="p">.</span><span class="n">Errors</span><span class="p">.</span><span class="n">Count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-12-104" name="__codelineno-12-104"></a><span class="w">            </span><span class="p">.</span><span class="n">ToDictionary</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">Key</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">Value</span><span class="o">!</span><span class="p">.</span><span class="n">Errors</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">ErrorMessage</span><span class="p">,</span><span class="w"> </span><span class="n">StringComparer</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">),</span>
+<a id="__codelineno-12-105" name="__codelineno-12-105"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-12-106" name="__codelineno-12-106"></a>
+<a id="__codelineno-12-107" name="__codelineno-12-107"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="n">ViewResult</span><span class="w"> </span><span class="nf">Form</span><span class="p">(</span><span class="n">FormView</span><span class="w"> </span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="kt">string?</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
+<a id="__codelineno-12-108" name="__codelineno-12-108"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-12-109" name="__codelineno-12-109"></a><span class="w">        </span><span class="n">ViewData</span><span class="p">[</span><span class="s">"Error"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+<a id="__codelineno-12-110" name="__codelineno-12-110"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">View</span><span class="p">(</span><span class="s">"Form"</span><span class="p">,</span><span class="w"> </span><span class="n">view</span><span class="p">);</span>
+<a id="__codelineno-12-111" name="__codelineno-12-111"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-112" name="__codelineno-12-112"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Vamos comentar este código:</p>
+<ul>
+<li>linha 8: o controller conhece apenas a camada de negócio;</li>
+<li>linha 11: a raiz do site redireciona para a lista;</li>
+<li>linhas 14–16: uma ação <strong>assíncrona</strong>: ela retorna uma <strong><em>[Task&lt;IActionResult&gt;]</em></strong> e aguarda (<strong><em>[await]</em></strong>) a leitura da lista no banco de dados;</li>
+<li>linhas 23–39: a adição, em três etapas: validação do formulário (erros: recarregamento da página), chamada à camada de negócio (sucesso: mensagem em <strong><em>[TempData]</em></strong> e redirecionamento, veja o Exemplo 20), <strong><em>[BusinessException]</em></strong> (nova exibição com a mensagem na parte inferior da página). Outra exceção não é capturada: trata-se de uma anomalia que resultará em um erro 500;</li>
+<li>linhas 44–55: o formulário de atualização, preenchido com o registro recuperado do banco de dados, incluindo sua versão;</li>
+<li>linhas 60–76: mesmo processo da adição; a versão retornada pelo formulário é passada à camada de negócio;</li>
+<li>linhas 81–93: exclusão. Não há formulário a exibir novamente: eventuais erros também são transmitidos por meio de <strong><em>[TempData]</em></strong>;</li>
+<li>linhas 97–104: o template da view do formulário, com os erros de <strong><em>[ModelState]</em></strong> ordenados por campo (veja o Exemplo 19).</li>
+</ul>
+<p>O arquivo <strong><em>[Views/Persons/Form.cshtml]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a>@model FormView
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a>@{
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a>    string? Error(string field) =&gt; Model.Errors.GetValueOrDefault(field);
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a>}
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"h3"</span><span class="p">&gt;</span>@Model.Title<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">"post"</span> <span class="na">action</span><span class="o">=</span><span class="s">"@Model.Action"</span> <span class="na">novalidate</span><span class="p">&gt;</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a>  @* a versão do registro lido: ela voltará junto com o formulário *@
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a>  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"hidden"</span> <span class="na">name</span><span class="o">=</span><span class="s">"version"</span> <span class="na">value</span><span class="o">=</span><span class="s">"@Model.Values.Version"</span><span class="p">&gt;</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a>  <span class="p">&lt;</span><span class="nt">partial</span> <span class="na">name</span><span class="o">=</span><span class="s">"_Field"</span> <span class="na">model</span><span class="o">=</span><span class="s">'new FieldModel("firstName", "First name", "text", Model.Values.FirstName, Error("firstName"))'</span> <span class="p">/&gt;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10"></a>  <span class="p">&lt;</span><span class="nt">partial</span> <span class="na">name</span><span class="o">=</span><span class="s">"_Field"</span> <span class="na">model</span><span class="o">=</span><span class="s">'new FieldModel("lastName", "Last name", "text", Model.Values.LastName, Error("lastName"))'</span> <span class="p">/&gt;</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11"></a>  <span class="p">&lt;</span><span class="nt">partial</span> <span class="na">name</span><span class="o">=</span><span class="s">"_Field"</span> <span class="na">model</span><span class="o">=</span><span class="s">'new FieldModel("age", "Age", "number", Model.Values.Age?.ToString(), Error("age"))'</span> <span class="p">/&gt;</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12"></a>  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-primary"</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span><span class="p">&gt;</span>Save<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13"></a>  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-link"</span> <span class="na">href</span><span class="o">=</span><span class="s">"/persons"</span><span class="p">&gt;</span>Cancel<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14"></a><span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 8: o campo oculto que transporta a versão do registro. A view é usada para adicionar e modificar registros: seu título e a URL de envio (<strong><em>[action]</em></strong>) são fornecidos pelo controller.</li>
+</ul>
+<p>O arquivo <strong><em>[Views/Shared/_Layout.cshtml]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-14-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-14-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-14-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-14-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-14-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-14-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-14-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-14-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-14-10">10</a></span>
+<span class="normal"><a href="#__codelineno-14-11">11</a></span>
+<span class="normal"><a href="#__codelineno-14-12">12</a></span>
+<span class="normal"><a href="#__codelineno-14-13">13</a></span>
+<span class="normal"><a href="#__codelineno-14-14">14</a></span>
+<span class="normal"><a href="#__codelineno-14-15">15</a></span>
+<span class="normal"><a href="#__codelineno-14-16">16</a></span>
+<span class="normal"><a href="#__codelineno-14-17">17</a></span>
+<span class="normal"><a href="#__codelineno-14-18">18</a></span>
+<span class="normal"><a href="#__codelineno-14-19">19</a></span>
+<span class="normal"><a href="#__codelineno-14-20">20</a></span>
+<span class="normal"><a href="#__codelineno-14-21">21</a></span>
+<span class="normal"><a href="#__codelineno-14-22">22</a></span>
+<span class="normal"><a href="#__codelineno-14-23">23</a></span>
+<span class="normal"><a href="#__codelineno-14-24">24</a></span>
+<span class="normal"><a href="#__codelineno-14-25">25</a></span>
+<span class="normal"><a href="#__codelineno-14-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">&gt;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4"></a>  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"utf-8"</span><span class="p">&gt;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5"></a>  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Persons<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6"></a>  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">href</span><span class="o">=</span><span class="s">"/bootstrap/css/bootstrap.min.css"</span><span class="p">&gt;</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7"></a>  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">href</span><span class="o">=</span><span class="s">"/css/styles.css"</span><span class="p">&gt;</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container py-3"</span> <span class="na">style</span><span class="o">=</span><span class="s">"max-width: 40rem"</span><span class="p">&gt;</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11"></a>    @* a mensagem de sucesso (TempData, após um redirecionamento): no topo *@
+<a id="__codelineno-14-12" name="__codelineno-14-12"></a>    @if (TempData["Success"] is string success)
+<a id="__codelineno-14-13" name="__codelineno-14-13"></a>    {
+<a id="__codelineno-14-14" name="__codelineno-14-14"></a>      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"alert alert-success"</span> <span class="na">role</span><span class="o">=</span><span class="s">"status"</span><span class="p">&gt;</span>@success<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15"></a>    }
+<a id="__codelineno-14-16" name="__codelineno-14-16"></a>    @RenderBody()
+<a id="__codelineno-14-17" name="__codelineno-14-17"></a>    @* o erro: da requisição atual (ViewData) ou de antes do redirecionamento (TempData) *@
+<a id="__codelineno-14-18" name="__codelineno-14-18"></a>    @if ((ViewData["Error"] ?? TempData["Error"]) is string error)
+<a id="__codelineno-14-19" name="__codelineno-14-19"></a>    {
+<a id="__codelineno-14-20" name="__codelineno-14-20"></a>      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"error-area"</span> <span class="na">role</span><span class="o">=</span><span class="s">"alert"</span><span class="p">&gt;</span>@error<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21"></a>    }
+<a id="__codelineno-14-22" name="__codelineno-14-22"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23"></a>  <span class="p">&lt;</span><span class="nt">partial</span> <span class="na">name</span><span class="o">=</span><span class="s">"_Confirmation"</span> <span class="p">/&gt;</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24"></a>  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">"/js/app.js"</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25"></a><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 12: a mensagem de sucesso, na parte superior da página;</li>
+<li>linha 18: a mensagem de erro, na parte inferior da página: seja a da requisição atual (<strong><em>[ViewData]</em></strong>), seja a exibida antes de um redirecionamento (<strong><em>[TempData]</em></strong>).</li>
+</ul>
+<p>As views <strong><em>[List.cshtml] e [_Field.cshtml]</em></strong> e o script de confirmação são os mesmos dos Exemplos 19 e 21.</p>
+<h3 id="918-execucao">9.1.8. <span style="color: #1f4d78">Execução</span></h3>
+<p>Se os valores em <strong><em>[appsettings.json]</em></strong> não forem adequados (uma senha para <strong><em>[root]</em></strong>, por exemplo), eles podem ser substituídos, sem modificar o arquivo, por variáveis de ambiente: o separador de seções <strong><em>[:]</em></strong> é escrito como <strong><em>[__]</em></strong> (dois sublinhados). No <em>[Windows]</em> (<em>[PowerShell]</em>):</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a>$env:ConnectionStrings__DbPersons="server=localhost;database=dbpersons;user=root;password=secret"; dotnet run
+</code></pre></div></td></tr></table></div>
+<p>A lista, a partir da URL http://<a href="http://localhost:5000/"><u><span style="color: #0563c1">localhost:5000/</span></u></a>:</p>
+<p><img src="images/10000000000002BE0000015EE7358905.png" width="428" height="213" style="width:11.322cm;height:5.644cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE0000015EE7358905.png" /></p>
+<p>Um formulário inválido:</p>
+<p><img src="images/10000000000002BE000001B104A24E96.png" width="428" height="264" style="width:11.322cm;height:6.983cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000001B104A24E96.png" /></p>
+<p>Um homônimo: a regra de negócio o detecta. O <em>[MySQL]</em>, que compara com base na collation do banco de dados, também rejeitaria <strong><em>[marie pelissier]</em></strong>, escrito em minúsculas e sem acentos:</p>
+<p><img src="images/10000000000002BE000001C93291B52C.png" width="428" height="279" style="width:11.322cm;height:7.371cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000001C93291B52C.png" /></p>
+<p>Uma adição bem-sucedida:</p>
+<p><img src="images/10000000000002BE000001D82AC6DB7C.png" width="428" height="288" style="width:11.322cm;height:7.613cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000001D82AC6DB7C.png" /></p>
+<p>Com o nível de log <strong><em>[Information]</em></strong> definido para <strong><em>[Microsoft.EntityFrameworkCore.Database.Command]</em></strong>, o console passa a exibir, para cada requisição SQL, o texto da requisição, seus parâmetros (ocultos por padrão, por precaução) e seu tempo de execução: vemos a transação, a busca de homônimos (<strong><em>[SELECT ... LIMIT 1]</em></strong>), <strong><em>o [INSERT]</em></strong> seguido da leitura do identificador atribuído, o <strong><em>[COMMIT]</em></strong> e, em seguida, após o redirecionamento, a leitura da lista (<strong><em>[SELECT ... ORDER BY]</em></strong>).</p>
+<p>O bloqueio otimista: dois formulários estão abertos para o mesmo registro; o primeiro é salvo (a versão passa para 2); o segundo, que ainda tem a versão 1, é rejeitado:</p>
+<p><img src="images/10000000000002BE000001C9D2670225.png" width="428" height="279" style="width:11.322cm;height:7.371cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000001C9D2670225.png" /></p>
+<p>Exclusão, com confirmação:</p>
+<p><img src="images/10000000000002BE000001CD3C9A6B2A.png" width="428" height="281" style="width:11.322cm;height:7.437cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000001CD3C9A6B2A.png" /></p>
+<p><img src="images/10000000000002BE000001A88B434A40.png" width="428" height="258" style="width:11.322cm;height:6.839cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000001A88B434A40.png" /></p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner">
+
+      <div>
+        <a href="https://stahe.github.io" target="_blank">
+          https://stahe.github.io
+        </a>
+        <br>
+        Este tutorial, escrito pela IA <strong>Claude</strong>, da Anthropic, a pedido de <strong>Serge Tahé</strong>, é disponibilizado ao público sob os termos da licença
+        <em>Creative Commons Atribuição – Uso Não Comercial –
+        Compartilha Igual 3.0 Não Adaptada</em>.
+
+      </div>
+
+    </div>
+  </div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "toc.integrate", "navigation.top"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="javascripts/focus.js"></script>
+      
+    
+  </body>
+</html>

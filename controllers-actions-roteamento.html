@@ -1,0 +1,2253 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Introdução passo a passo ao framework web [ASP.NET Core MVC]">
+      
+      
+        <meta name="author" content="Serge Tahé">
+      
+      
+        <link rel="canonical" href="https://stahe.github.io/br-aspnetcoremvc-sept-2026/controllers-actions-roteamento.html">
+      
+      
+        <link rel="prev" href="introducao.html">
+      
+      
+        <link rel="next" href="o-modelo-da-action.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2. Controllers, actions, roteamento - Introdução passo a passo ao framework web [ASP.NET Core MVC]</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/focus.css">
+    
+      <link rel="stylesheet" href="stylesheets/bidi.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBZC3JVJNR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var siteName = "Introdução passo a passo ao framework web [ASP.NET Core MVC]";
+    gtag('config', 'G-EBZC3JVJNR', {
+        'page_title': siteName
+    });
+  </script>
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2-controllers-actions-roteamento" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Introdução passo a passo ao framework web [ASP.NET Core MVC]" class="md-header__button md-logo" aria-label="Introdução passo a passo ao framework web [ASP.NET Core MVC]" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introdução passo a passo ao framework web [ASP.NET Core MVC]
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2. Controllers, actions, roteamento
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Alternar para o modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para o modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Alternar para o modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para o modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://stahe.github.io/br-aspnetcoremvc-sept-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Introdução passo a passo ao framework web [ASP.NET Core MVC]" class="md-nav__button md-logo" aria-label="Introdução passo a passo ao framework web [ASP.NET Core MVC]" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Introdução passo a passo ao framework web [ASP.NET Core MVC]
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://stahe.github.io/br-aspnetcoremvc-sept-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bem-vindo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="introducao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introdução
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Controllers, actions, roteamento
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="controllers-actions-roteamento.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Controllers, actions, roteamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#21-exemplo-01-a-estrutura-de-uma-aplicacao-aspnet-core-mvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Exemplo 01: A estrutura de uma aplicação ASP.NET Core MVC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1. Exemplo 01: A estrutura de uma aplicação ASP.NET Core MVC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-o-ponto-de-entrada-programcs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1. O ponto de entrada: Program.cs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-o-controller-controllershomecontrollercs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.2. O controller: Controllers/HomeController.cs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#213-execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.3. Execução
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-exemplo-02-roteamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Exemplo 02: Roteamento
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-exemplo-03-respostas-de-uma-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Exemplo 03: Respostas de uma action
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-exemplo-04-redirecionamentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Exemplo 04: Redirecionamentos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-exemplo-05-os-objetos-de-requisicao-e-de-resposta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Exemplo 05: Os objetos de requisição e de resposta
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#26-exemplo-06-servicos-e-injecao-de-dependencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. Exemplo 06: Serviços e injeção de dependência
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.6. Exemplo 06: Serviços e injeção de dependência">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#261-o-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.1. O Product
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#262-o-contrato-do-servico-iproductsservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.2. O contrato do serviço: IProductsService
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#263-a-implementacao-productsservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.3. A implementação: ProductsService
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#264-o-controller-productscontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.4. O controller ProductsController
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#265-o-controller-clientscontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.5. O controller ClientsController
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#266-registro-dos-servicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.6. Registro dos serviços
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#267-execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.7. Execução
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="o-modelo-da-action.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. O modelo da action
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="a-view-e-seu-modelo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. A view e seu modelo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="internacionalizacao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Internacionalização
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="escopos-de-dados.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Escopos de dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="o-ciclo-de-vida-de-uma-requisicao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. O ciclo de vida de uma requisição
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="autenticacao-e-autorizacao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Autenticação e autorização
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arquitetura-em-camadas-e-acesso-a-dados.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Arquitetura em camadas e acesso a dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusao-intermediaria.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Conclusão intermediária
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="estudo-de-caso-a-aplicacao-rdvmedecins.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Estudo de caso: a aplicação RdvMedecins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusao.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Conclusão
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apendices.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Apêndices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="2-controllers-actions-roteamento">2. <span style="color: #2e74b5">Controllers, actions, roteamento</span></h1>
+<p>Este capítulo examina o caminho percorrido por uma requisição, do navegador até a action que a processa, e a resposta que essa action devolve. As views só serão apresentadas no Capítulo 4: aqui, as actions devolvem texto ou JSON diretamente.</p>
+<h2 id="21-exemplo-01-a-estrutura-de-uma-aplicacao-aspnet-core-mvc">2.1. <span style="color: #2e74b5">Exemplo 01: A estrutura de uma aplicação ASP.NET Core MVC</span></h2>
+<p>O primeiro exemplo é a menor aplicação <em>[ASP.NET Core MVC]</em> possível. Além dos arquivos <strong><em>[Example01.csproj]</em></strong> e <strong><em>[appsettings.json]</em></strong> apresentados na introdução, ele tem dois arquivos:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>01-structure/
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>├── Controllers/
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>│   └── HomeController.cs
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>├── appsettings.json
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>├── Example01.csproj
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>└── Program.cs
+</code></pre></div></td></tr></table></div>
+<h3 id="211-o-ponto-de-entrada-programcs">2.1.1. <span style="color: #1f4d78">O ponto de entrada: Program.cs</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1">// o "builder" da aplicação: configuração, logging, serviços...</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kt">var</span><span class="w"> </span><span class="n">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WebApplication</span><span class="p">.</span><span class="n">CreateBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1">// registra os serviços de que o MVC precisa para encontrar e executar os controllers</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddControllers</span><span class="p">();</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c1">// constrói a aplicação</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="kt">var</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="c1">// as rotas declaradas pelos controllers ([HttpGet("/")]...) são ativadas</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="n">app</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">();</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="c1">// inicia o servidor HTTP (http://localhost:5000 por padrão); Ctrl-C o encerra</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="n">app</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<p>Vamos analisar este código:</p>
+<ul>
+<li>Linha 2: <strong><em>[WebApplication.CreateBuilder]</em></strong> cria o “construtor” da aplicação. Ele lê a configuração (o arquivo <strong><em>[appsettings.json]</em></strong>, as variáveis de ambiente etc.), configura o log e prepara a lista de <strong>serviços</strong> da aplicação, <strong><em>[builder.Services]</em></strong>. O parâmetro <strong><em>[args]</em></strong> contém os argumentos da linha de comando;</li>
+<li>linha 5: os serviços de que o <em>[MVC]</em> precisa para localizar os controllers da aplicação e executar suas actions são adicionados à lista;</li>
+<li>linha 8: a aplicação é construída. Depois desta linha, a lista de serviços não pode mais ser modificada;</li>
+<li>linha 11: as rotas declaradas pelos controllers (os atributos <strong><em>[[HttpGet]]</em></strong>, <strong><em>[[Route]]</em></strong>..., sobre os quais falaremos) são habilitadas: sem esta linha, nenhuma action seria chamada;</li>
+<li>linha 14: inicia o servidor web <em>[Kestrel]</em> e aguarda requisições até que a aplicação seja encerrada (<strong><em>[Ctrl-C]</em></strong>). Salvo indicação em contrário, o servidor escuta na porta 5000.</li>
+</ul>
+<p>Este arquivo não contém nenhuma classe nem nenhum método <strong><em>chamado [Main]</em></strong>: é um programa <strong>de instruções de nível superior</strong>. O próprio compilador <em>[C#]</em> envolve essas instruções em um método chamado <strong><em>[Main]</em></strong>, que serve de ponto de entrada do programa. Observe também a ausência de diretivas <strong><em>[using]</em></strong>: <strong><em>[WebApplication]</em></strong> pertence ao namespace <strong><em>[Microsoft.AspNetCore.Builder]</em></strong>, que é importado automaticamente (veja <strong><em>[ImplicitUsings]</em></strong> na introdução).</p>
+<h3 id="212-o-controller-controllershomecontrollercs">2.1.2. <span style="color: #1f4d78">O controller: Controllers/HomeController.cs</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example01.Controllers</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="c1">// um controller é uma classe que herda de Controller</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">HomeController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span><span class="c1">// uma action: o método chamado para a requisição GET /</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="na">[HttpGet("/")]</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Index</span><span class="p">()</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">        </span><span class="c1">// o valor retornado pela action é a resposta enviada ao navegador</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Hello from ASP.NET Core MVC!"</span><span class="p">;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>Linha 1: o namespace que contém a classe <strong><em>[Controller]</em></strong> e os atributos do <em>[MVC]</em>;</li>
+<li>linha 3: o namespace das classes deste arquivo. Por convenção, ele inclui o nome do projeto ([Example01]) e o diretório do arquivo (<strong><em>[Controllers]</em></strong>). A forma <strong><em>[namespace X;]</em></strong> (sem chaves) vale para o arquivo inteiro;</li>
+<li>linha 6: um controller é uma classe <strong>public</strong> que herda da classe <strong><em>[Controller]</em></strong>. Por convenção, seu nome termina com <strong><em>[Controller]</em></strong>. O <em>[ASP.NET Core]</em> encontra automaticamente os controllers da aplicação — não é preciso declará-los;</li>
+<li>linha 9: o atributo <strong><em>[[HttpGet(&quot;/&quot;)]]</em></strong> associa o método <strong><em>[Index]</em></strong> às requisições <strong><em>[GET /]</em></strong>. Um método associado dessa forma a uma rota é uma <strong>action</strong>. Um atributo <em>[C#]</em> é escrito entre colchetes, imediatamente antes do elemento que descreve: ele adiciona informações ao método, que o framework lê na inicialização;</li>
+<li>Linha 13: o valor devolvido pela action é a resposta enviada ao navegador.</li>
+</ul>
+<h3 id="213-execucao">2.1.3. <span style="color: #1f4d78">Execução</span></h3>
+<p>Em uma janela de terminal aberta no diretório <strong><em>[01-structure]</em></strong>, digite <strong><em>[dotnet run]</em></strong>. Após a compilação, o servidor é iniciado:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span>
+<span class="normal"><a href="#__codelineno-3-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a>info: Microsoft.Hosting.Lifetime[14]
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a>      Now listening on: http://localhost:5000
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a>info: Microsoft.Hosting.Lifetime[0]
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a>      Application started. Press Ctrl+C to shut down.
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a>info: Microsoft.Hosting.Lifetime[0]
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a>      Hosting environment: Production
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a>info: Microsoft.Hosting.Lifetime[0]
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a>      Content root path: C:\course\examples\01-structure
+</code></pre></div></td></tr></table></div>
+<p>As mensagens de inicialização indicam o endereço de escuta (<strong><em>[http://localhost:5000]</em></strong>) e o ambiente de execução: <strong><em>[Production]</em></strong>, o ambiente padrão. Veremos que certos comportamentos do <em>[ASP.NET Core]</em> dependem do ambiente (<strong><em>[Development]</em></strong> ou <strong><em>[Production]</em></strong>). Vamos solicitar a URL <strong><em>[http://localhost:5000/]</em></strong> usando um navegador:</p>
+<p><img src="images/10000000000002BE0000006506AB28E7.png" width="428" height="62" style="width:11.322cm;height:1.63cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE0000006506AB28E7.png" /></p>
+<p>e depois com o <em>[curl]</em>. A opção <strong><em>[-i]</em></strong> também exibe os cabeçalhos HTTP da resposta (mostramos aqui apenas alguns deles):</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>curl -i http://localhost:5000/
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a>Hello from ASP.NET Core MVC!
+</code></pre></div></td></tr></table></div>
+<p>Uma string devolvida por uma action é enviada com o cabeçalho <strong><em>[Content-Type: text/plain]</em></strong>: o navegador a exibe como texto simples, sem interpretá-la. Isso difere do <em>[NestJS]</em>, que a enviava como HTML (<strong><em>[text/html]</em></strong>). O Exemplo 03 mostrará como enviar HTML.</p>
+<h2 id="22-exemplo-02-roteamento">2.2. <span style="color: #2e74b5">Exemplo 02: Roteamento</span></h2>
+<p>O roteamento associa uma URL e um método HTTP (GET, POST...) a uma action. O Exemplo 02 tem dois controllers:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span>
+<span class="normal"><a href="#__codelineno-6-6">6</a></span>
+<span class="normal"><a href="#__codelineno-6-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a>02-routing/
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a>├── Controllers/
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a>│   ├── FirstController.cs
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a>│   └── HomeController.cs
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a>├── appsettings.json
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a>├── Example02.csproj
+<a id="__codelineno-6-7" name="__codelineno-6-7"></a>└── Program.cs
+</code></pre></div></td></tr></table></div>
+<p>O arquivo <strong><em>[Program.cs]</em></strong> é idêntico ao do Exemplo 01: isso vale para todos os exemplos deste capítulo, exceto o último. O arquivo <strong><em>[Controllers/HomeController.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span>
+<span class="normal"><a href="#__codelineno-7-14">14</a></span>
+<span class="normal"><a href="#__codelineno-7-15">15</a></span>
+<span class="normal"><a href="#__codelineno-7-16">16</a></span>
+<span class="normal"><a href="#__codelineno-7-17">17</a></span>
+<span class="normal"><a href="#__codelineno-7-18">18</a></span>
+<span class="normal"><a href="#__codelineno-7-19">19</a></span>
+<span class="normal"><a href="#__codelineno-7-20">20</a></span>
+<span class="normal"><a href="#__codelineno-7-21">21</a></span>
+<span class="normal"><a href="#__codelineno-7-22">22</a></span>
+<span class="normal"><a href="#__codelineno-7-23">23</a></span>
+<span class="normal"><a href="#__codelineno-7-24">24</a></span>
+<span class="normal"><a href="#__codelineno-7-25">25</a></span>
+<span class="normal"><a href="#__codelineno-7-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example02.Controllers</span><span class="p">;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">HomeController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="p">{</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">    </span><span class="c1">// GET /: uma página HTML contendo links para as outras actions</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">    </span><span class="na">[HttpGet("/")]</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">ContentResult</span><span class="w"> </span><span class="nf">Index</span><span class="p">()</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"""</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="s">            &lt;h2&gt;Example 02 - routing&lt;/h2&gt;</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="s">            &lt;ul&gt;</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="s">              &lt;li&gt;&lt;a href="/first"&gt;/first&lt;/a&gt;&lt;/li&gt;</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="s">              &lt;li&gt;&lt;a href="/first/action01"&gt;/first/action01&lt;/a&gt;&lt;/li&gt;</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="s">              &lt;li&gt;&lt;a href="/first/products/17"&gt;/first/products/17&lt;/a&gt;&lt;/li&gt;</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="s">              &lt;li&gt;&lt;a href="/first/products/17/reviews/3"&gt;/first/products/17/reviews/3&lt;/a&gt;&lt;/li&gt;</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="s">              &lt;li&gt;&lt;a href="/first/files/images/logo.png"&gt;/first/files/images/logo.png&lt;/a&gt;&lt;/li&gt;</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19"></a><span class="s">              &lt;li&gt;&lt;a href="/first/products/abc"&gt;/first/products/abc&lt;/a&gt;&lt;/li&gt;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20"></a><span class="s">              &lt;li&gt;&lt;a href="/unknown"&gt;/unknown&lt;/a&gt;&lt;/li&gt;</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21"></a><span class="s">            &lt;/ul&gt;</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22"></a><span class="s">            """</span><span class="p">;</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23"></a><span class="w">        </span><span class="c1">// Content(text, type): uma resposta cujo tipo nós escolhemos (aqui, HTML)</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">Content</span><span class="p">(</span><span class="n">html</span><span class="p">,</span><span class="w"> </span><span class="s">"text/html; charset=utf-8"</span><span class="p">);</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 9: a action não devolve mais uma string, e sim um <strong><em>[ContentResult]</em></strong>: uma resposta cujo conteúdo <strong>e</strong> tipo são especificados;</li>
+<li>linhas 11–22: uma string bruta <em>[C#]</em> (<em>[raw string literal]</em>), delimitada por três aspas. Ela pode se estender por várias linhas e conter aspas sem precisar escapá-las. Os espaços que precedem o <strong><em>[&quot;&quot;&quot;]</em></strong> de fechamento são removidos de cada linha;</li>
+<li>linha 24: o método <strong><em>[Content(text, type)]</em></strong> da classe <strong><em>[Controller]</em></strong> gera um <strong><em>[ContentResult]</em></strong>. O tipo <strong><em>[text/html]</em></strong> instrui o navegador a interpretar o texto como HTML.</li>
+</ul>
+<p>A action <strong><em>[Index]</em></strong> devolve, portanto, uma página HTML que contém links para as actions do outro controller:</p>
+<p><img src="images/10000000000002BE000000EEA17D0349.png" width="428" height="145" style="width:11.322cm;height:3.838cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000000EEA17D0349.png" /></p>
+<p>O arquivo <strong><em>[Controllers/FirstController.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span>
+<span class="normal"><a href="#__codelineno-8-35">35</a></span>
+<span class="normal"><a href="#__codelineno-8-36">36</a></span>
+<span class="normal"><a href="#__codelineno-8-37">37</a></span>
+<span class="normal"><a href="#__codelineno-8-38">38</a></span>
+<span class="normal"><a href="#__codelineno-8-39">39</a></span>
+<span class="normal"><a href="#__codelineno-8-40">40</a></span>
+<span class="normal"><a href="#__codelineno-8-41">41</a></span>
+<span class="normal"><a href="#__codelineno-8-42">42</a></span>
+<span class="normal"><a href="#__codelineno-8-43">43</a></span>
+<span class="normal"><a href="#__codelineno-8-44">44</a></span>
+<span class="normal"><a href="#__codelineno-8-45">45</a></span>
+<span class="normal"><a href="#__codelineno-8-46">46</a></span>
+<span class="normal"><a href="#__codelineno-8-47">47</a></span>
+<span class="normal"><a href="#__codelineno-8-48">48</a></span>
+<span class="normal"><a href="#__codelineno-8-49">49</a></span>
+<span class="normal"><a href="#__codelineno-8-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example02.Controllers</span><span class="p">;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="c1">// prefixo compartilhado por todas as rotas do controller</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="na">[Route("first")]</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FirstController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="p">{</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="c1">// GET /first</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">    </span><span class="na">[HttpGet("")]</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Index</span><span class="p">()</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Action [Index] of the [First] controller"</span><span class="p">;</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15"></a>
+<a id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="w">    </span><span class="c1">// GET /first/action01</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="w">    </span><span class="na">[HttpGet("action01")]</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Action01</span><span class="p">()</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Action [Action01] of the [First] controller, GET request"</span><span class="p">;</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22"></a>
+<a id="__codelineno-8-23" name="__codelineno-8-23"></a><span class="w">    </span><span class="c1">// POST /first/action01: mesmo caminho, outro método HTTP</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24"></a><span class="w">    </span><span class="na">[HttpPost("action01")]</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Action01Post</span><span class="p">()</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Action [Action01Post] of the [First] controller, POST request"</span><span class="p">;</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29"></a>
+<a id="__codelineno-8-30" name="__codelineno-8-30"></a><span class="w">    </span><span class="c1">// GET /first/products/17: {id} é um parâmetro de rota, ":int" uma restrição</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31"></a><span class="w">    </span><span class="na">[HttpGet("products/{id:int}")]</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Product</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">$"Product no. {id}"</span><span class="p">;</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36"></a>
+<a id="__codelineno-8-37" name="__codelineno-8-37"></a><span class="w">    </span><span class="c1">// GET /first/products/17/reviews/3: dois parâmetros de rota</span>
+<a id="__codelineno-8-38" name="__codelineno-8-38"></a><span class="w">    </span><span class="na">[HttpGet("products/{id:int}/reviews/{number:int}")]</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Review</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="p">)</span>
+<a id="__codelineno-8-40" name="__codelineno-8-40"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-41" name="__codelineno-8-41"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">$"Review no. {number} of product no. {id}"</span><span class="p">;</span>
+<a id="__codelineno-8-42" name="__codelineno-8-42"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-43" name="__codelineno-8-43"></a>
+<a id="__codelineno-8-44" name="__codelineno-8-44"></a><span class="w">    </span><span class="c1">// GET /first/files/...: {**path} aceita qualquer final de caminho</span>
+<a id="__codelineno-8-45" name="__codelineno-8-45"></a><span class="w">    </span><span class="na">[HttpGet("files/{**path}")]</span>
+<a id="__codelineno-8-46" name="__codelineno-8-46"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">File</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">path</span><span class="p">)</span>
+<a id="__codelineno-8-47" name="__codelineno-8-47"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-48" name="__codelineno-8-48"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">$"Requested file: {path}"</span><span class="p">;</span>
+<a id="__codelineno-8-49" name="__codelineno-8-49"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-50" name="__codelineno-8-50"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Vamos analisar este código:</p>
+<ul>
+<li>linha 6: o atributo <strong><em>[[Route(&quot;first&quot;)]]</em></strong>, aplicado à classe, define o prefixo comum a todas as rotas do controller: suas actions tratam as rotas de URL que começam com <strong><em>[/first]</em></strong>;</li>
+<li>linhas 10–11: <strong><em>[[HttpGet(&quot;&quot;)]]</em></strong>: a action <strong><em>[Index]</em></strong> trata <strong><em>[GET /first]</em></strong>. A URL de uma action é a concatenação do prefixo do controller com o caminho da action;</li>
+<li>linhas 17–18: a action <strong><em>[Action01]</em></strong> processa <strong><em>[GET /first/action01]</em></strong>;</li>
+<li>linhas 24–25: o mesmo caminho, mas para o método POST: <strong><em>[[HttpPost]]</em></strong> substitui <strong><em>[[HttpGet]]</em></strong>. Existem também <strong><em>[[HttpPut]]</em></strong>, <strong><em>[[HttpDelete]]</em></strong>, <strong><em>[[HttpPatch]]</em></strong>... O nome do método <em>[C#]</em> (<strong><em>[Action01Post]</em></strong>) é arbitrário: para o roteamento, só importam os atributos. Além disso, dentro da mesma classe, dois métodos não podem ter o mesmo nome com os mesmos parâmetros;</li>
+<li>linhas 31–32: <strong><em>[{id}]</em></strong> é um <strong>parâmetro de rota</strong>: esse segmento da URL pode assumir vários valores. <strong><em>[:int]</em></strong> é uma <strong>restrição</strong>: o segmento deve ser um número inteiro; caso contrário, a rota não corresponde. O valor do segmento é passado ao parâmetro de mesmo nome da action, <strong><em>[id]</em></strong>, já convertido para <strong><em>[int]</em></strong>: para <strong><em>[/first/products/17]</em></strong>, <strong><em>[id]</em></strong> é igual ao número 17. Esse é o <strong>model binding</strong> (<em>[model binding]</em>), que o próximo capítulo examinará em detalhes;</li>
+<li>linhas 38–39: dois parâmetros de rota, passados a dois parâmetros da action;</li>
+<li>linhas 44–46: <strong><em>[{**path}]</em></strong> é um parâmetro &quot;catch-all&quot; (<em>[catch-all]</em>): aceita qualquer final de URL, inclusive <strong><em>[/]</em></strong>.</li>
+</ul>
+<p>Eis os resultados de algumas requisições:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a>curl -i http://localhost:5000/first
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a>Action [Index] of the [First] controller
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a>curl -i http://localhost:5000/first/action01
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a>Action [Action01] of the [First] controller, GET request
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a>curl -i http://localhost:5000/first/products/17
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span>
+<span class="normal"><a href="#__codelineno-14-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-14-2" name="__codelineno-14-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4"></a>Product no. 17
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a>curl -i http://localhost:5000/first/products/17/reviews/3
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span>
+<span class="normal"><a href="#__codelineno-16-3">3</a></span>
+<span class="normal"><a href="#__codelineno-16-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-16-2" name="__codelineno-16-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-16-3" name="__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4"></a>Review no. 3 of product no. 17
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1"></a>curl -i http://localhost:5000/first/files/images/logo.png
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-18-2" name="__codelineno-18-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-18-3" name="__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4"></a>Requested file: images/logo.png
+</code></pre></div></td></tr></table></div>
+<p>Para enviar uma requisição POST, use a opção <strong><em>[-X POST]</em></strong> do <em>[curl]</em>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a>curl -i -X POST http://localhost:5000/first/action01
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span>
+<span class="normal"><a href="#__codelineno-20-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-20-2" name="__codelineno-20-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-20-3" name="__codelineno-20-3"></a>
+<a id="__codelineno-20-4" name="__codelineno-20-4"></a>Action [Action01Post] of the [First] controller, POST request
+</code></pre></div></td></tr></table></div>
+<p>Um método HTTP que não é tratado por nenhuma action para esse caminho resulta em um erro 405 (<em>[Method Not Allowed]</em>). O cabeçalho <strong><em>[Allow]</em></strong> lista os métodos aceitos:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a>curl -i -X PUT http://localhost:5000/first/action01
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
+<span class="normal"><a href="#__codelineno-22-2">2</a></span>
+<span class="normal"><a href="#__codelineno-22-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a>HTTP/1.1 405 Method Not Allowed
+<a id="__codelineno-22-2" name="__codelineno-22-2"></a>Content-Length: 0
+<a id="__codelineno-22-3" name="__codelineno-22-3"></a>Allow: GET, POST
+</code></pre></div></td></tr></table></div>
+<p>Por fim, uma URL que nenhuma rota trata resulta em um erro 404. É também o caso de um identificador que não atende à restrição <strong><em>[:int]</em></strong>: nenhuma rota corresponde a <strong><em>[/first/products/abc]</em></strong>.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1"></a>curl -i http://localhost:5000/first/products/abc
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a>HTTP/1.1 404 Not Found
+<a id="__codelineno-24-2" name="__codelineno-24-2"></a>Content-Length: 0
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a>curl -i http://localhost:5000/unknown
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1"></a>HTTP/1.1 404 Not Found
+<a id="__codelineno-26-2" name="__codelineno-26-2"></a>Content-Length: 0
+</code></pre></div></td></tr></table></div>
+<p>A resposta 404 do <em>[ASP.NET Core]</em> não tem conteúdo (<strong><em>[Content-Length: 0]</em></strong>): o navegador exibe a própria página de erro.</p>
+<p><img src="images/10000000000002BE000000652118660C.png" width="428" height="62" style="width:11.322cm;height:1.63cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000000652118660C.png" /></p>
+<p>O Capítulo 7 mostrará como substituir essa resposta vazia por uma página HTML.</p>
+<h2 id="23-exemplo-03-respostas-de-uma-action">2.3. <span style="color: #2e74b5">Exemplo 03: Respostas de uma action</span></h2>
+<p>O que uma action devolve determina a resposta HTTP. O Exemplo 03 revê os principais casos. O arquivo <strong><em>[Controllers/ResponsesController.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-27-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-27-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-27-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-27-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-27-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-27-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-27-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-27-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-27-10">10</a></span>
+<span class="normal"><a href="#__codelineno-27-11">11</a></span>
+<span class="normal"><a href="#__codelineno-27-12">12</a></span>
+<span class="normal"><a href="#__codelineno-27-13">13</a></span>
+<span class="normal"><a href="#__codelineno-27-14">14</a></span>
+<span class="normal"><a href="#__codelineno-27-15">15</a></span>
+<span class="normal"><a href="#__codelineno-27-16">16</a></span>
+<span class="normal"><a href="#__codelineno-27-17">17</a></span>
+<span class="normal"><a href="#__codelineno-27-18">18</a></span>
+<span class="normal"><a href="#__codelineno-27-19">19</a></span>
+<span class="normal"><a href="#__codelineno-27-20">20</a></span>
+<span class="normal"><a href="#__codelineno-27-21">21</a></span>
+<span class="normal"><a href="#__codelineno-27-22">22</a></span>
+<span class="normal"><a href="#__codelineno-27-23">23</a></span>
+<span class="normal"><a href="#__codelineno-27-24">24</a></span>
+<span class="normal"><a href="#__codelineno-27-25">25</a></span>
+<span class="normal"><a href="#__codelineno-27-26">26</a></span>
+<span class="normal"><a href="#__codelineno-27-27">27</a></span>
+<span class="normal"><a href="#__codelineno-27-28">28</a></span>
+<span class="normal"><a href="#__codelineno-27-29">29</a></span>
+<span class="normal"><a href="#__codelineno-27-30">30</a></span>
+<span class="normal"><a href="#__codelineno-27-31">31</a></span>
+<span class="normal"><a href="#__codelineno-27-32">32</a></span>
+<span class="normal"><a href="#__codelineno-27-33">33</a></span>
+<span class="normal"><a href="#__codelineno-27-34">34</a></span>
+<span class="normal"><a href="#__codelineno-27-35">35</a></span>
+<span class="normal"><a href="#__codelineno-27-36">36</a></span>
+<span class="normal"><a href="#__codelineno-27-37">37</a></span>
+<span class="normal"><a href="#__codelineno-27-38">38</a></span>
+<span class="normal"><a href="#__codelineno-27-39">39</a></span>
+<span class="normal"><a href="#__codelineno-27-40">40</a></span>
+<span class="normal"><a href="#__codelineno-27-41">41</a></span>
+<span class="normal"><a href="#__codelineno-27-42">42</a></span>
+<span class="normal"><a href="#__codelineno-27-43">43</a></span>
+<span class="normal"><a href="#__codelineno-27-44">44</a></span>
+<span class="normal"><a href="#__codelineno-27-45">45</a></span>
+<span class="normal"><a href="#__codelineno-27-46">46</a></span>
+<span class="normal"><a href="#__codelineno-27-47">47</a></span>
+<span class="normal"><a href="#__codelineno-27-48">48</a></span>
+<span class="normal"><a href="#__codelineno-27-49">49</a></span>
+<span class="normal"><a href="#__codelineno-27-50">50</a></span>
+<span class="normal"><a href="#__codelineno-27-51">51</a></span>
+<span class="normal"><a href="#__codelineno-27-52">52</a></span>
+<span class="normal"><a href="#__codelineno-27-53">53</a></span>
+<span class="normal"><a href="#__codelineno-27-54">54</a></span>
+<span class="normal"><a href="#__codelineno-27-55">55</a></span>
+<span class="normal"><a href="#__codelineno-27-56">56</a></span>
+<span class="normal"><a href="#__codelineno-27-57">57</a></span>
+<span class="normal"><a href="#__codelineno-27-58">58</a></span>
+<span class="normal"><a href="#__codelineno-27-59">59</a></span>
+<span class="normal"><a href="#__codelineno-27-60">60</a></span>
+<span class="normal"><a href="#__codelineno-27-61">61</a></span>
+<span class="normal"><a href="#__codelineno-27-62">62</a></span>
+<span class="normal"><a href="#__codelineno-27-63">63</a></span>
+<span class="normal"><a href="#__codelineno-27-64">64</a></span>
+<span class="normal"><a href="#__codelineno-27-65">65</a></span>
+<span class="normal"><a href="#__codelineno-27-66">66</a></span>
+<span class="normal"><a href="#__codelineno-27-67">67</a></span>
+<span class="normal"><a href="#__codelineno-27-68">68</a></span>
+<span class="normal"><a href="#__codelineno-27-69">69</a></span>
+<span class="normal"><a href="#__codelineno-27-70">70</a></span>
+<span class="normal"><a href="#__codelineno-27-71">71</a></span>
+<span class="normal"><a href="#__codelineno-27-72">72</a></span>
+<span class="normal"><a href="#__codelineno-27-73">73</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2"></a>
+<a id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example03.Controllers</span><span class="p">;</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4"></a>
+<a id="__codelineno-27-5" name="__codelineno-27-5"></a><span class="na">[Route("responses")]</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ResponsesController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7"></a><span class="p">{</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8"></a><span class="w">    </span><span class="c1">// uma string: enviada como está, com o tipo [text/plain]</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9"></a><span class="w">    </span><span class="na">[HttpGet("text")]</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Text</span><span class="p">()</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"&lt;h1&gt;Action [Text]&lt;/h1&gt;"</span><span class="p">;</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14"></a>
+<a id="__codelineno-27-15" name="__codelineno-27-15"></a><span class="w">    </span><span class="c1">// a mesma string, anunciada como HTML: o navegador a interpreta</span>
+<a id="__codelineno-27-16" name="__codelineno-27-16"></a><span class="w">    </span><span class="na">[HttpGet("html")]</span>
+<a id="__codelineno-27-17" name="__codelineno-27-17"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">ContentResult</span><span class="w"> </span><span class="nf">Html</span><span class="p">()</span>
+<a id="__codelineno-27-18" name="__codelineno-27-18"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-19" name="__codelineno-27-19"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">Content</span><span class="p">(</span><span class="s">"&lt;h1&gt;Action [Html]&lt;/h1&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s">"text/html; charset=utf-8"</span><span class="p">);</span>
+<a id="__codelineno-27-20" name="__codelineno-27-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-21" name="__codelineno-27-21"></a>
+<a id="__codelineno-27-22" name="__codelineno-27-22"></a><span class="w">    </span><span class="c1">// um objeto: serializado em JSON, com o tipo [application/json]</span>
+<a id="__codelineno-27-23" name="__codelineno-27-23"></a><span class="w">    </span><span class="na">[HttpGet("json")]</span>
+<a id="__codelineno-27-24" name="__codelineno-27-24"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">object</span><span class="w"> </span><span class="nf">Json</span><span class="p">()</span>
+<a id="__codelineno-27-25" name="__codelineno-27-25"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-26" name="__codelineno-27-26"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">lastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Martin"</span><span class="p">,</span><span class="w"> </span><span class="n">firstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Jean"</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-27-27" name="__codelineno-27-27"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-28" name="__codelineno-27-28"></a>
+<a id="__codelineno-27-29" name="__codelineno-27-29"></a><span class="w">    </span><span class="c1">// um array: também serializado em JSON</span>
+<a id="__codelineno-27-30" name="__codelineno-27-30"></a><span class="w">    </span><span class="na">[HttpGet("array")]</span>
+<a id="__codelineno-27-31" name="__codelineno-27-31"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span><span class="w"> </span><span class="nf">Array</span><span class="p">()</span>
+<a id="__codelineno-27-32" name="__codelineno-27-32"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-33" name="__codelineno-27-33"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="s">"Mme"</span><span class="p">,</span><span class="w"> </span><span class="s">"Melle"</span><span class="p">,</span><span class="w"> </span><span class="s">"Mr"</span><span class="p">];</span>
+<a id="__codelineno-27-34" name="__codelineno-27-34"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-35" name="__codelineno-27-35"></a>
+<a id="__codelineno-27-36" name="__codelineno-27-36"></a><span class="w">    </span><span class="c1">// IActionResult: a action escolhe a resposta completa (código, conteúdo)</span>
+<a id="__codelineno-27-37" name="__codelineno-27-37"></a><span class="w">    </span><span class="c1">// StatusCode(201, ...): o código 201 (Created) em vez de 200 (OK)</span>
+<a id="__codelineno-27-38" name="__codelineno-27-38"></a><span class="w">    </span><span class="na">[HttpGet("created")]</span>
+<a id="__codelineno-27-39" name="__codelineno-27-39"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">ResourceCreated</span><span class="p">()</span>
+<a id="__codelineno-27-40" name="__codelineno-27-40"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-41" name="__codelineno-27-41"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">StatusCode</span><span class="p">(</span><span class="mi">201</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"resource created"</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-27-42" name="__codelineno-27-42"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-43" name="__codelineno-27-43"></a>
+<a id="__codelineno-27-44" name="__codelineno-27-44"></a><span class="w">    </span><span class="c1">// sem resposta: o código 204 (No Content) significa "nada a exibir"</span>
+<a id="__codelineno-27-45" name="__codelineno-27-45"></a><span class="w">    </span><span class="na">[HttpGet("empty")]</span>
+<a id="__codelineno-27-46" name="__codelineno-27-46"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">EmptyResponse</span><span class="p">()</span>
+<a id="__codelineno-27-47" name="__codelineno-27-47"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-48" name="__codelineno-27-48"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">NoContent</span><span class="p">();</span>
+<a id="__codelineno-27-49" name="__codelineno-27-49"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-50" name="__codelineno-27-50"></a>
+<a id="__codelineno-27-51" name="__codelineno-27-51"></a><span class="w">    </span><span class="c1">// uma action assíncrona: o ASP.NET espera o fim da tarefa (Task)</span>
+<a id="__codelineno-27-52" name="__codelineno-27-52"></a><span class="w">    </span><span class="na">[HttpGet("task")]</span>
+<a id="__codelineno-27-53" name="__codelineno-27-53"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="kt">object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">AsyncTask</span><span class="p">()</span>
+<a id="__codelineno-27-54" name="__codelineno-27-54"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-55" name="__codelineno-27-55"></a><span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
+<a id="__codelineno-27-56" name="__codelineno-27-56"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span><span class="w"> </span><span class="c1">// uma espera de 500 ms, sem bloquear o servidor</span>
+<a id="__codelineno-27-57" name="__codelineno-27-57"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$"{(DateTime.Now - start).TotalMilliseconds:0} ms"</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-27-58" name="__codelineno-27-58"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-59" name="__codelineno-27-59"></a>
+<a id="__codelineno-27-60" name="__codelineno-27-60"></a><span class="w">    </span><span class="c1">// um erro "esperado": NotFound(...) produz uma resposta 404</span>
+<a id="__codelineno-27-61" name="__codelineno-27-61"></a><span class="w">    </span><span class="na">[HttpGet("not-found")]</span>
+<a id="__codelineno-27-62" name="__codelineno-27-62"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">NotFoundError</span><span class="p">()</span>
+<a id="__codelineno-27-63" name="__codelineno-27-63"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-64" name="__codelineno-27-64"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">NotFound</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"This resource does not exist"</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-27-65" name="__codelineno-27-65"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-66" name="__codelineno-27-66"></a>
+<a id="__codelineno-27-67" name="__codelineno-27-67"></a><span class="w">    </span><span class="c1">// um erro "inesperado": uma exceção não tratada produz uma resposta 500</span>
+<a id="__codelineno-27-68" name="__codelineno-27-68"></a><span class="w">    </span><span class="na">[HttpGet("exception")]</span>
+<a id="__codelineno-27-69" name="__codelineno-27-69"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Exception</span><span class="p">()</span>
+<a id="__codelineno-27-70" name="__codelineno-27-70"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-27-71" name="__codelineno-27-71"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">InvalidOperationException</span><span class="p">(</span><span class="s">"An unexpected error"</span><span class="p">);</span>
+<a id="__codelineno-27-72" name="__codelineno-27-72"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-27-73" name="__codelineno-27-73"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Vamos analisar este código:</p>
+<ul>
+<li>linhas 9–12: uma string é enviada como está, com o cabeçalho <strong><em>[Content-Type: text/plain; charset=utf-8]</em></strong>;</li>
+<li>linhas 16–19: a mesma string, declarada como HTML (veja o Exemplo 02): o navegador a interpreta;</li>
+<li>linhas 23–26: um objeto é <strong>serializado</strong> como JSON, com o cabeçalho <strong><em>[Content-Type: application/json]</em></strong>. <strong><em>[new { lastName = ..., firstName = ... }]</em></strong> cria um objeto de um <strong>tipo anônimo</strong>: um tipo sem nome gerado pelo compilador, útil para dados usados uma única vez. Os nomes das propriedades do JSON são escritos em “camelCase” (primeira letra minúscula), seguindo a convenção do <em>[JavaScript]</em>;</li>
+<li>linhas 30–33: um array também é serializado como JSON. <strong><em>[[&quot;Mme&quot;, &quot;Melle&quot;, &quot;Mr&quot;]]</em></strong> é uma <strong>expressão de coleção</strong> (<em>[C#]</em> 12), que aqui cria um array de strings;</li>
+<li>linhas 39–41: quando a action precisa escolher o código de status, ela devolve um <strong><em>[IActionResult]</em></strong>: um objeto que descreve a resposta completa. Os métodos da classe <strong><em>[Controller]</em></strong> geram muitos deles: <strong><em>[StatusCode(201, object)]</em></strong> produz uma resposta de código 201 (<em>[Created]</em>) cujo conteúdo é o objeto serializado em JSON;</li>
+<li>linhas 46–48: <strong><em>[NoContent()]</em></strong> devolve o código de status 204 (<em>[No Content]</em>): “sem conteúdo”;</li>
+<li>linhas 53–57: uma action pode ser <strong>assíncrona</strong> (<strong><em>[async]</em></strong>): ela então devolve uma tarefa (<strong><em>[Task&lt;T&gt;]</em></strong>), o equivalente a uma promise (<em>[JavaScript]</em>), e o <em>[ASP.NET Core]</em> espera a conclusão da tarefa antes de responder. <strong><em>[await Task.Delay(500)]</em></strong> espera 500 ms <strong>sem bloquear</strong> o servidor: durante a espera, a thread que executava a action é devolvida ao servidor, que pode usá-la para processar outras requisições. É assim que se escrevem todas as actions que consultam um banco de dados;</li>
+<li>linhas 62–64: um erro previsto pelo programa: <strong><em>[NotFound(object)]</em></strong> devolve uma resposta 404 com conteúdo JSON. Da mesma forma, existem <strong><em>[BadRequest(...)]</em></strong> (400), <strong><em>[Unauthorized()]</em></strong> (401), <strong><em>[Forbid()]</em></strong> (403), <strong><em>[Ok(...)]</em></strong> (200)...;</li>
+<li>linhas 69–71: um erro <strong>inesperado</strong>: a action lança uma exceção, que ela não trata. O <em>[ASP.NET Core]</em> responde então com um erro 500 (<em>[Internal Server Error]</em>).</li>
+</ul>
+<p>Respostas recebidas:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1"></a>curl -i http://localhost:5000/responses/text
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
+<span class="normal"><a href="#__codelineno-29-2">2</a></span>
+<span class="normal"><a href="#__codelineno-29-3">3</a></span>
+<span class="normal"><a href="#__codelineno-29-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-29-2" name="__codelineno-29-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-29-3" name="__codelineno-29-3"></a>
+<a id="__codelineno-29-4" name="__codelineno-29-4"></a>&lt;h1&gt;Action [Text]&lt;/h1&gt;
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1"></a>curl -i http://localhost:5000/responses/html
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span>
+<span class="normal"><a href="#__codelineno-31-2">2</a></span>
+<span class="normal"><a href="#__codelineno-31-3">3</a></span>
+<span class="normal"><a href="#__codelineno-31-4">4</a></span>
+<span class="normal"><a href="#__codelineno-31-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-31-2" name="__codelineno-31-2"></a>Content-Length: 22
+<a id="__codelineno-31-3" name="__codelineno-31-3"></a>Content-Type: text/html; charset=utf-8
+<a id="__codelineno-31-4" name="__codelineno-31-4"></a>
+<a id="__codelineno-31-5" name="__codelineno-31-5"></a>&lt;h1&gt;Action [Html]&lt;/h1&gt;
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1"></a>curl -i http://localhost:5000/responses/json
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span>
+<span class="normal"><a href="#__codelineno-33-2">2</a></span>
+<span class="normal"><a href="#__codelineno-33-3">3</a></span>
+<span class="normal"><a href="#__codelineno-33-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-33-2" name="__codelineno-33-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-33-3" name="__codelineno-33-3"></a>
+<a id="__codelineno-33-4" name="__codelineno-33-4"></a>{"lastName":"Martin","firstName":"Jean","age":42}
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1"></a>curl -i http://localhost:5000/responses/array
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1">1</a></span>
+<span class="normal"><a href="#__codelineno-35-2">2</a></span>
+<span class="normal"><a href="#__codelineno-35-3">3</a></span>
+<span class="normal"><a href="#__codelineno-35-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-35-2" name="__codelineno-35-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-35-3" name="__codelineno-35-3"></a>
+<a id="__codelineno-35-4" name="__codelineno-35-4"></a>["Mme","Melle","Mr"]
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1"></a>curl -i http://localhost:5000/responses/created
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1">1</a></span>
+<span class="normal"><a href="#__codelineno-37-2">2</a></span>
+<span class="normal"><a href="#__codelineno-37-3">3</a></span>
+<span class="normal"><a href="#__codelineno-37-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1"></a>HTTP/1.1 201 Created
+<a id="__codelineno-37-2" name="__codelineno-37-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-37-3" name="__codelineno-37-3"></a>
+<a id="__codelineno-37-4" name="__codelineno-37-4"></a>{"message":"resource created"}
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1"></a>curl -i http://localhost:5000/responses/empty
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-39-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1"></a>HTTP/1.1 204 No Content
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-40-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1"></a>curl -i http://localhost:5000/responses/task
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-41-1">1</a></span>
+<span class="normal"><a href="#__codelineno-41-2">2</a></span>
+<span class="normal"><a href="#__codelineno-41-3">3</a></span>
+<span class="normal"><a href="#__codelineno-41-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-41-2" name="__codelineno-41-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-41-3" name="__codelineno-41-3"></a>
+<a id="__codelineno-41-4" name="__codelineno-41-4"></a>{"wait":"514 ms"}
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-42-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1"></a>curl -i http://localhost:5000/responses/not-found
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-43-1">1</a></span>
+<span class="normal"><a href="#__codelineno-43-2">2</a></span>
+<span class="normal"><a href="#__codelineno-43-3">3</a></span>
+<span class="normal"><a href="#__codelineno-43-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1"></a>HTTP/1.1 404 Not Found
+<a id="__codelineno-43-2" name="__codelineno-43-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-43-3" name="__codelineno-43-3"></a>
+<a id="__codelineno-43-4" name="__codelineno-43-4"></a>{"message":"This resource does not exist"}
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1"></a>curl -i http://localhost:5000/responses/exception
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-45-1">1</a></span>
+<span class="normal"><a href="#__codelineno-45-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1"></a>HTTP/1.1 500 Internal Server Error
+<a id="__codelineno-45-2" name="__codelineno-45-2"></a>Content-Length: 0
+</code></pre></div></td></tr></table></div>
+<p>Nesse caso de exceção, a resposta não fornece nenhuma informação sobre o erro: os detalhes poderiam ajudar um invasor. Eles são registrados no console do servidor (reproduzimos aqui apenas o início):</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-46-1">1</a></span>
+<span class="normal"><a href="#__codelineno-46-2">2</a></span>
+<span class="normal"><a href="#__codelineno-46-3">3</a></span>
+<span class="normal"><a href="#__codelineno-46-4">4</a></span>
+<span class="normal"><a href="#__codelineno-46-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1"></a>fail: Microsoft.AspNetCore.Server.Kestrel[13]
+<a id="__codelineno-46-2" name="__codelineno-46-2"></a>      Connection id "0HNP6TN0D56ES", Request id "0HNP6TN0D56ES:00000001": An unhandled exception was thrown by the application.
+<a id="__codelineno-46-3" name="__codelineno-46-3"></a>      System.InvalidOperationException: An unexpected error
+<a id="__codelineno-46-4" name="__codelineno-46-4"></a>         at Example03.Controllers.ResponsesController.Exception() in ...\03-responses\Controllers\ResponsesController.cs:line 71
+<a id="__codelineno-46-5" name="__codelineno-46-5"></a>         ...
+</code></pre></div></td></tr></table></div>
+<p>Em um navegador, a diferença entre <strong><em>[text/plain]</em></strong> e <strong><em>[text/html]</em></strong> é visível:</p>
+<p><img src="images/10000000000002BE000000650BFFA9E4.png" width="428" height="62" style="width:11.322cm;height:1.63cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000000650BFFA9E4.png" /></p>
+<p><img src="images/10000000000002BE0000006BB0E128E5.png" width="428" height="65" style="width:11.322cm;height:1.727cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE0000006BB0E128E5.png" /></p>
+<h2 id="24-exemplo-04-redirecionamentos">2.4. <span style="color: #2e74b5">Exemplo 04: Redirecionamentos</span></h2>
+<p>Uma action pode responder com um redirecionamento: um código de status 301 ou 302 e um cabeçalho <strong><em>[Location]</em></strong> que informa ao navegador qual URL solicitar em seguida. O navegador a solicita imediatamente, sem nenhuma intervenção do usuário. Os redirecionamentos são onipresentes em uma aplicação web: após o envio bem-sucedido de um formulário, após o login, após a troca de idioma...</p>
+<p>O arquivo <strong><em>[Controllers/RedirectsController.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-47-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-47-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-47-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-47-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-47-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-47-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-47-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-47-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-47-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-47-10">10</a></span>
+<span class="normal"><a href="#__codelineno-47-11">11</a></span>
+<span class="normal"><a href="#__codelineno-47-12">12</a></span>
+<span class="normal"><a href="#__codelineno-47-13">13</a></span>
+<span class="normal"><a href="#__codelineno-47-14">14</a></span>
+<span class="normal"><a href="#__codelineno-47-15">15</a></span>
+<span class="normal"><a href="#__codelineno-47-16">16</a></span>
+<span class="normal"><a href="#__codelineno-47-17">17</a></span>
+<span class="normal"><a href="#__codelineno-47-18">18</a></span>
+<span class="normal"><a href="#__codelineno-47-19">19</a></span>
+<span class="normal"><a href="#__codelineno-47-20">20</a></span>
+<span class="normal"><a href="#__codelineno-47-21">21</a></span>
+<span class="normal"><a href="#__codelineno-47-22">22</a></span>
+<span class="normal"><a href="#__codelineno-47-23">23</a></span>
+<span class="normal"><a href="#__codelineno-47-24">24</a></span>
+<span class="normal"><a href="#__codelineno-47-25">25</a></span>
+<span class="normal"><a href="#__codelineno-47-26">26</a></span>
+<span class="normal"><a href="#__codelineno-47-27">27</a></span>
+<span class="normal"><a href="#__codelineno-47-28">28</a></span>
+<span class="normal"><a href="#__codelineno-47-29">29</a></span>
+<span class="normal"><a href="#__codelineno-47-30">30</a></span>
+<span class="normal"><a href="#__codelineno-47-31">31</a></span>
+<span class="normal"><a href="#__codelineno-47-32">32</a></span>
+<span class="normal"><a href="#__codelineno-47-33">33</a></span>
+<span class="normal"><a href="#__codelineno-47-34">34</a></span>
+<span class="normal"><a href="#__codelineno-47-35">35</a></span>
+<span class="normal"><a href="#__codelineno-47-36">36</a></span>
+<span class="normal"><a href="#__codelineno-47-37">37</a></span>
+<span class="normal"><a href="#__codelineno-47-38">38</a></span>
+<span class="normal"><a href="#__codelineno-47-39">39</a></span>
+<span class="normal"><a href="#__codelineno-47-40">40</a></span>
+<span class="normal"><a href="#__codelineno-47-41">41</a></span>
+<span class="normal"><a href="#__codelineno-47-42">42</a></span>
+<span class="normal"><a href="#__codelineno-47-43">43</a></span>
+<span class="normal"><a href="#__codelineno-47-44">44</a></span>
+<span class="normal"><a href="#__codelineno-47-45">45</a></span>
+<span class="normal"><a href="#__codelineno-47-46">46</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-47-2" name="__codelineno-47-2"></a>
+<a id="__codelineno-47-3" name="__codelineno-47-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example04.Controllers</span><span class="p">;</span>
+<a id="__codelineno-47-4" name="__codelineno-47-4"></a>
+<a id="__codelineno-47-5" name="__codelineno-47-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RedirectsController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-47-6" name="__codelineno-47-6"></a><span class="p">{</span>
+<a id="__codelineno-47-7" name="__codelineno-47-7"></a><span class="w">    </span><span class="c1">// redirecionamento permanente (301): a página mudou de endereço definitivamente</span>
+<a id="__codelineno-47-8" name="__codelineno-47-8"></a><span class="w">    </span><span class="na">[HttpGet("old")]</span>
+<a id="__codelineno-47-9" name="__codelineno-47-9"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">OldPage</span><span class="p">()</span>
+<a id="__codelineno-47-10" name="__codelineno-47-10"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-47-11" name="__codelineno-47-11"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">RedirectPermanent</span><span class="p">(</span><span class="s">"/new"</span><span class="p">);</span>
+<a id="__codelineno-47-12" name="__codelineno-47-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-47-13" name="__codelineno-47-13"></a>
+<a id="__codelineno-47-14" name="__codelineno-47-14"></a><span class="w">    </span><span class="na">[HttpGet("new")]</span>
+<a id="__codelineno-47-15" name="__codelineno-47-15"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">NewPage</span><span class="p">()</span>
+<a id="__codelineno-47-16" name="__codelineno-47-16"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-47-17" name="__codelineno-47-17"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"You are on the [new] page"</span><span class="p">;</span>
+<a id="__codelineno-47-18" name="__codelineno-47-18"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-47-19" name="__codelineno-47-19"></a>
+<a id="__codelineno-47-20" name="__codelineno-47-20"></a><span class="w">    </span><span class="c1">// redirecionamento temporário (302), para um endereço calculado</span>
+<a id="__codelineno-47-21" name="__codelineno-47-21"></a><span class="w">    </span><span class="na">[HttpGet("go/{destination}")]</span>
+<a id="__codelineno-47-22" name="__codelineno-47-22"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">Go</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">destination</span><span class="p">)</span>
+<a id="__codelineno-47-23" name="__codelineno-47-23"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-47-24" name="__codelineno-47-24"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">Redirect</span><span class="p">(</span><span class="s">$"/page/{destination}"</span><span class="p">);</span>
+<a id="__codelineno-47-25" name="__codelineno-47-25"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-47-26" name="__codelineno-47-26"></a>
+<a id="__codelineno-47-27" name="__codelineno-47-27"></a><span class="w">    </span><span class="c1">// redirecionamento para uma ACTION: o ASP.NET constrói a URL por conta própria</span>
+<a id="__codelineno-47-28" name="__codelineno-47-28"></a><span class="w">    </span><span class="na">[HttpGet("to-action/{destination}")]</span>
+<a id="__codelineno-47-29" name="__codelineno-47-29"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">ToAction</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">destination</span><span class="p">)</span>
+<a id="__codelineno-47-30" name="__codelineno-47-30"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-47-31" name="__codelineno-47-31"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">RedirectToAction</span><span class="p">(</span><span class="k">nameof</span><span class="p">(</span><span class="n">Page</span><span class="p">),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-47-32" name="__codelineno-47-32"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-47-33" name="__codelineno-47-33"></a>
+<a id="__codelineno-47-34" name="__codelineno-47-34"></a><span class="w">    </span><span class="na">[HttpGet("page/{name}")]</span>
+<a id="__codelineno-47-35" name="__codelineno-47-35"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Page</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-47-36" name="__codelineno-47-36"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-47-37" name="__codelineno-47-37"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">$"You are on the [{name}] page"</span><span class="p">;</span>
+<a id="__codelineno-47-38" name="__codelineno-47-38"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-47-39" name="__codelineno-47-39"></a>
+<a id="__codelineno-47-40" name="__codelineno-47-40"></a><span class="w">    </span><span class="c1">// redirecionamento para outro site</span>
+<a id="__codelineno-47-41" name="__codelineno-47-41"></a><span class="w">    </span><span class="na">[HttpGet("documentation")]</span>
+<a id="__codelineno-47-42" name="__codelineno-47-42"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">Documentation</span><span class="p">()</span>
+<a id="__codelineno-47-43" name="__codelineno-47-43"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-47-44" name="__codelineno-47-44"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">Redirect</span><span class="p">(</span><span class="s">"https://learn.microsoft.com/aspnet/core"</span><span class="p">);</span>
+<a id="__codelineno-47-45" name="__codelineno-47-45"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-47-46" name="__codelineno-47-46"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Vamos analisar este código:</p>
+<ul>
+<li>linhas 9–11: <strong><em>[RedirectPermanent(url)]</em></strong> gera um redirecionamento permanente (código de status 301, <em>[Moved Permanently]</em>): o endereço da página mudou definitivamente. Navegadores e mecanismos de busca podem armazenar o novo endereço em cache;</li>
+<li>linhas 22–24: <strong><em>[Redirect(url)]</em></strong> gera um redirecionamento temporário (código de status 302, <em>[Found]</em>), neste caso para um endereço calculado. <strong><em>[$&quot;/page/{destination}&quot;]</em></strong> é uma <strong>string interpolada</strong>: a expressão entre chaves é substituída pelo seu valor;</li>
+<li>linhas 29–31: <strong><em>[RedirectToAction(action, values)]</em></strong> redireciona para uma <strong>action</strong>, não para uma URL: o <em>[ASP.NET Core]</em> mesmo gera a URL da action <strong><em>[Page]</em></strong> com base em sua rota ([page/{name}]) e nos valores fornecidos ([name = destination]). Se o caminho da action mudar um dia, o redirecionamento o acompanha. <strong><em>[nameof(Page)]</em></strong> devolve o nome do método (<strong><em>[&quot;Page&quot;]</em></strong>): um erro de digitação causaria um erro de compilação, o que não acontece com uma string escrita à mão;</li>
+<li>linhas 42–44: é possível redirecionar para outro site.</li>
+</ul>
+<p><em>O [curl]</em> mostra o redirecionamento sem segui-lo:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-48-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1"></a>curl -i http://localhost:5000/old
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-49-1">1</a></span>
+<span class="normal"><a href="#__codelineno-49-2">2</a></span>
+<span class="normal"><a href="#__codelineno-49-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1"></a>HTTP/1.1 301 Moved Permanently
+<a id="__codelineno-49-2" name="__codelineno-49-2"></a>Content-Length: 0
+<a id="__codelineno-49-3" name="__codelineno-49-3"></a>Location: /new
+</code></pre></div></td></tr></table></div>
+<p>Com a opção <strong><em>[-L]</em></strong>, o <em>[curl]</em> segue o redirecionamento, exatamente como um navegador. Vemos então as duas respostas sucessivas:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-50-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1"></a>curl -i -L http://localhost:5000/old
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-51-1">1</a></span>
+<span class="normal"><a href="#__codelineno-51-2">2</a></span>
+<span class="normal"><a href="#__codelineno-51-3">3</a></span>
+<span class="normal"><a href="#__codelineno-51-4">4</a></span>
+<span class="normal"><a href="#__codelineno-51-5">5</a></span>
+<span class="normal"><a href="#__codelineno-51-6">6</a></span>
+<span class="normal"><a href="#__codelineno-51-7">7</a></span>
+<span class="normal"><a href="#__codelineno-51-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1"></a>HTTP/1.1 301 Moved Permanently
+<a id="__codelineno-51-2" name="__codelineno-51-2"></a>Content-Length: 0
+<a id="__codelineno-51-3" name="__codelineno-51-3"></a>Location: /new
+<a id="__codelineno-51-4" name="__codelineno-51-4"></a>
+<a id="__codelineno-51-5" name="__codelineno-51-5"></a>HTTP/1.1 200 OK
+<a id="__codelineno-51-6" name="__codelineno-51-6"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-51-7" name="__codelineno-51-7"></a>
+<a id="__codelineno-51-8" name="__codelineno-51-8"></a>You are on the [new] page
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-52-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1"></a>curl -i http://localhost:5000/go/contact
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-53-1">1</a></span>
+<span class="normal"><a href="#__codelineno-53-2">2</a></span>
+<span class="normal"><a href="#__codelineno-53-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1"></a>HTTP/1.1 302 Found
+<a id="__codelineno-53-2" name="__codelineno-53-2"></a>Content-Length: 0
+<a id="__codelineno-53-3" name="__codelineno-53-3"></a>Location: /page/contact
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-54-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1"></a>curl -i http://localhost:5000/to-action/contact
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-55-1">1</a></span>
+<span class="normal"><a href="#__codelineno-55-2">2</a></span>
+<span class="normal"><a href="#__codelineno-55-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1"></a>HTTP/1.1 302 Found
+<a id="__codelineno-55-2" name="__codelineno-55-2"></a>Content-Length: 0
+<a id="__codelineno-55-3" name="__codelineno-55-3"></a>Location: /page/contact
+</code></pre></div></td></tr></table></div>
+<p>As duas actions resultam no mesmo redirecionamento: uma com uma URL escrita à mão, a outra com uma URL gerada pelo <em>[ASP.NET Core]</em>. No navegador, só a página final é visível; a barra de endereços exibe a nova URL:</p>
+<p><img src="images/10000000000002BE000000651F730B92.png" width="428" height="62" style="width:11.322cm;height:1.63cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/10000000000002BE000000651F730B92.png" /></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-56-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1"></a>curl -i http://localhost:5000/documentation
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-57-1">1</a></span>
+<span class="normal"><a href="#__codelineno-57-2">2</a></span>
+<span class="normal"><a href="#__codelineno-57-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1"></a>HTTP/1.1 302 Found
+<a id="__codelineno-57-2" name="__codelineno-57-2"></a>Content-Length: 0
+<a id="__codelineno-57-3" name="__codelineno-57-3"></a>Location: https://learn.microsoft.com/aspnet/core
+</code></pre></div></td></tr></table></div>
+<h2 id="25-exemplo-05-os-objetos-de-requisicao-e-de-resposta">2.5. <span style="color: #2e74b5">Exemplo 05: Os objetos de requisição e de resposta</span></h2>
+<p>Cada requisição é representada por um objeto <strong><em>[HttpContext]</em></strong>, que contém a requisição (<strong><em>[Request]</em></strong>) e a resposta que está sendo gerada (<strong><em>[Response]</em></strong>). Uma action acessa esse objeto diretamente pelas propriedades <strong><em>[HttpContext]</em></strong>, <strong><em>[Request]</em></strong> e <strong><em>[Response]</em></strong> da classe <strong><em>[Controller]</em></strong>. Isso às vezes é necessário, e o faremos no estudo de caso (para ler ou definir um cookie, por exemplo), mas é preciso saber o que se está fazendo.</p>
+<p>O arquivo <strong><em>[Controllers/HttpController.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-58-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-58-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-58-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-58-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-58-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-58-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-58-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-58-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-58-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-58-10">10</a></span>
+<span class="normal"><a href="#__codelineno-58-11">11</a></span>
+<span class="normal"><a href="#__codelineno-58-12">12</a></span>
+<span class="normal"><a href="#__codelineno-58-13">13</a></span>
+<span class="normal"><a href="#__codelineno-58-14">14</a></span>
+<span class="normal"><a href="#__codelineno-58-15">15</a></span>
+<span class="normal"><a href="#__codelineno-58-16">16</a></span>
+<span class="normal"><a href="#__codelineno-58-17">17</a></span>
+<span class="normal"><a href="#__codelineno-58-18">18</a></span>
+<span class="normal"><a href="#__codelineno-58-19">19</a></span>
+<span class="normal"><a href="#__codelineno-58-20">20</a></span>
+<span class="normal"><a href="#__codelineno-58-21">21</a></span>
+<span class="normal"><a href="#__codelineno-58-22">22</a></span>
+<span class="normal"><a href="#__codelineno-58-23">23</a></span>
+<span class="normal"><a href="#__codelineno-58-24">24</a></span>
+<span class="normal"><a href="#__codelineno-58-25">25</a></span>
+<span class="normal"><a href="#__codelineno-58-26">26</a></span>
+<span class="normal"><a href="#__codelineno-58-27">27</a></span>
+<span class="normal"><a href="#__codelineno-58-28">28</a></span>
+<span class="normal"><a href="#__codelineno-58-29">29</a></span>
+<span class="normal"><a href="#__codelineno-58-30">30</a></span>
+<span class="normal"><a href="#__codelineno-58-31">31</a></span>
+<span class="normal"><a href="#__codelineno-58-32">32</a></span>
+<span class="normal"><a href="#__codelineno-58-33">33</a></span>
+<span class="normal"><a href="#__codelineno-58-34">34</a></span>
+<span class="normal"><a href="#__codelineno-58-35">35</a></span>
+<span class="normal"><a href="#__codelineno-58-36">36</a></span>
+<span class="normal"><a href="#__codelineno-58-37">37</a></span>
+<span class="normal"><a href="#__codelineno-58-38">38</a></span>
+<span class="normal"><a href="#__codelineno-58-39">39</a></span>
+<span class="normal"><a href="#__codelineno-58-40">40</a></span>
+<span class="normal"><a href="#__codelineno-58-41">41</a></span>
+<span class="normal"><a href="#__codelineno-58-42">42</a></span>
+<span class="normal"><a href="#__codelineno-58-43">43</a></span>
+<span class="normal"><a href="#__codelineno-58-44">44</a></span>
+<span class="normal"><a href="#__codelineno-58-45">45</a></span>
+<span class="normal"><a href="#__codelineno-58-46">46</a></span>
+<span class="normal"><a href="#__codelineno-58-47">47</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-58-2" name="__codelineno-58-2"></a>
+<a id="__codelineno-58-3" name="__codelineno-58-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example05.Controllers</span><span class="p">;</span>
+<a id="__codelineno-58-4" name="__codelineno-58-4"></a>
+<a id="__codelineno-58-5" name="__codelineno-58-5"></a><span class="na">[Route("http")]</span>
+<a id="__codelineno-58-6" name="__codelineno-58-6"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">HttpController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-58-7" name="__codelineno-58-7"></a><span class="p">{</span>
+<a id="__codelineno-58-8" name="__codelineno-58-8"></a><span class="w">    </span><span class="c1">// a requisição: método, caminho, parâmetros, cabeçalhos...</span>
+<a id="__codelineno-58-9" name="__codelineno-58-9"></a><span class="w">    </span><span class="na">[HttpGet("request")]</span>
+<a id="__codelineno-58-10" name="__codelineno-58-10"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">object</span><span class="w"> </span><span class="nf">RequestInfo</span><span class="p">()</span>
+<a id="__codelineno-58-11" name="__codelineno-58-11"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-58-12" name="__codelineno-58-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span>
+<a id="__codelineno-58-13" name="__codelineno-58-13"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-58-14" name="__codelineno-58-14"></a><span class="w">            </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Request</span><span class="p">.</span><span class="n">Method</span><span class="p">,</span>
+<a id="__codelineno-58-15" name="__codelineno-58-15"></a><span class="w">            </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Request</span><span class="p">.</span><span class="n">Path</span><span class="p">.</span><span class="n">Value</span><span class="p">,</span>
+<a id="__codelineno-58-16" name="__codelineno-58-16"></a><span class="w">            </span><span class="n">parameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">.</span><span class="n">Value</span><span class="p">,</span>
+<a id="__codelineno-58-17" name="__codelineno-58-17"></a><span class="w">            </span><span class="n">browser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Request</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="n">UserAgent</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span>
+<a id="__codelineno-58-18" name="__codelineno-58-18"></a><span class="w">            </span><span class="n">ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpContext</span><span class="p">.</span><span class="n">Connection</span><span class="p">.</span><span class="n">RemoteIpAddress</span><span class="o">?.</span><span class="n">ToString</span><span class="p">(),</span>
+<a id="__codelineno-58-19" name="__codelineno-58-19"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-58-20" name="__codelineno-58-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-58-21" name="__codelineno-58-21"></a>
+<a id="__codelineno-58-22" name="__codelineno-58-22"></a><span class="w">    </span><span class="c1">// a resposta: adicionamos um cabeçalho a ela e depois a action retorna seu valor normalmente</span>
+<a id="__codelineno-58-23" name="__codelineno-58-23"></a><span class="w">    </span><span class="na">[HttpGet("header")]</span>
+<a id="__codelineno-58-24" name="__codelineno-58-24"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Header</span><span class="p">()</span>
+<a id="__codelineno-58-25" name="__codelineno-58-25"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-58-26" name="__codelineno-58-26"></a><span class="w">        </span><span class="n">Response</span><span class="p">.</span><span class="n">Headers</span><span class="p">[</span><span class="s">"X-Example"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"05-httpcontext"</span><span class="p">;</span>
+<a id="__codelineno-58-27" name="__codelineno-58-27"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Response with an added header"</span><span class="p">;</span>
+<a id="__codelineno-58-28" name="__codelineno-58-28"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-58-29" name="__codelineno-58-29"></a>
+<a id="__codelineno-58-30" name="__codelineno-58-30"></a><span class="w">    </span><span class="c1">// a resposta escrita "à mão": código, tipo e depois o corpo</span>
+<a id="__codelineno-58-31" name="__codelineno-58-31"></a><span class="w">    </span><span class="na">[HttpGet("response")]</span>
+<a id="__codelineno-58-32" name="__codelineno-58-32"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">ResponseByHand</span><span class="p">()</span>
+<a id="__codelineno-58-33" name="__codelineno-58-33"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-58-34" name="__codelineno-58-34"></a><span class="w">        </span><span class="n">Response</span><span class="p">.</span><span class="n">StatusCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span>
+<a id="__codelineno-58-35" name="__codelineno-58-35"></a><span class="w">        </span><span class="n">Response</span><span class="p">.</span><span class="n">ContentType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"text/plain; charset=utf-8"</span><span class="p">;</span>
+<a id="__codelineno-58-36" name="__codelineno-58-36"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="n">WriteAsync</span><span class="p">(</span><span class="s">"Response written by [Response.WriteAsync]"</span><span class="p">);</span>
+<a id="__codelineno-58-37" name="__codelineno-58-37"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-58-38" name="__codelineno-58-38"></a>
+<a id="__codelineno-58-39" name="__codelineno-58-39"></a><span class="w">    </span><span class="c1">// ERRO a não cometer: escrever a resposta E DEPOIS retornar um resultado</span>
+<a id="__codelineno-58-40" name="__codelineno-58-40"></a><span class="w">    </span><span class="na">[HttpGet("double")]</span>
+<a id="__codelineno-58-41" name="__codelineno-58-41"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IActionResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Double</span><span class="p">()</span>
+<a id="__codelineno-58-42" name="__codelineno-58-42"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-58-43" name="__codelineno-58-43"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="n">WriteAsync</span><span class="p">(</span><span class="s">"Start of the response... "</span><span class="p">);</span>
+<a id="__codelineno-58-44" name="__codelineno-58-44"></a><span class="w">        </span><span class="c1">// a resposta já saiu: seu código e seus cabeçalhos não podem mais mudar</span>
+<a id="__codelineno-58-45" name="__codelineno-58-45"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">NotFound</span><span class="p">();</span>
+<a id="__codelineno-58-46" name="__codelineno-58-46"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-58-47" name="__codelineno-58-47"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Vamos analisar este código:</p>
+<ul>
+<li>linhas 10–18: a requisição: o método HTTP (<strong><em>[Request.Method]</em></strong>), o caminho (<strong><em>[Request.Path]</em></strong>), os parâmetros da URL (<strong><em>[Request.QueryString]</em></strong>), os cabeçalhos (<strong><em>[Request.Headers]</em></strong>) e, por meio de <strong><em>[HttpContext.Connection]</em></strong>, o endereço (IP) do cliente. <strong><em>[?.]</em></strong> é o operador “condicional nulo”: se <strong><em>[RemoteIpAddress]</em></strong> for igual a <strong><em>[null]</em></strong>, a expressão é avaliada como <strong><em>[null]</em></strong> em vez de causar um erro;</li>
+<li>linhas 24–27: a action adiciona um cabeçalho à resposta e depois devolve normalmente o valor dela, que o <em>[ASP.NET Core]</em> envia. É o uso mais comum de <strong><em>[Response]</em></strong>;</li>
+<li>linhas 32–36: a action escreve a resposta por conta própria — código de status, tipo e, em seguida, o corpo — usando <strong><em>[Response.WriteAsync]</em></strong>. Ela não devolve nada (<strong><em>[Task]</em></strong>, e não <strong><em>[Task&lt;T&gt;]</em></strong>);</li>
+<li>linhas 41–45: o erro a evitar: escrever parte da resposta <strong>e depois</strong> devolver um resultado. Depois que os primeiros bytes do corpo foram enviados ao navegador, o código de status e os cabeçalhos — que foram enviados antes do corpo — não podem mais ser alterados.</li>
+</ul>
+<p>As respostas obtidas:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-59-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1"></a>curl -i -A "Mozilla/5.0 (example)" "http://localhost:5000/http/request?name=martin"
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-60-1">1</a></span>
+<span class="normal"><a href="#__codelineno-60-2">2</a></span>
+<span class="normal"><a href="#__codelineno-60-3">3</a></span>
+<span class="normal"><a href="#__codelineno-60-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-60-2" name="__codelineno-60-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-60-3" name="__codelineno-60-3"></a>
+<a id="__codelineno-60-4" name="__codelineno-60-4"></a>{"method":"GET","path":"/http/request","parameters":"?name=martin","browser":"Mozilla/5.0 (example)","ip":"127.0.0.1"}
+</code></pre></div></td></tr></table></div>
+<p>(A opção <strong><em>[-A]</em></strong> do <em>[curl]</em> define o cabeçalho <strong><em>[User-Agent]</em></strong>, que identifica o navegador)</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-61-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1"></a>curl -i http://localhost:5000/http/header
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-62-1">1</a></span>
+<span class="normal"><a href="#__codelineno-62-2">2</a></span>
+<span class="normal"><a href="#__codelineno-62-3">3</a></span>
+<span class="normal"><a href="#__codelineno-62-4">4</a></span>
+<span class="normal"><a href="#__codelineno-62-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-62-2" name="__codelineno-62-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-62-3" name="__codelineno-62-3"></a>X-Example: 05-httpcontext
+<a id="__codelineno-62-4" name="__codelineno-62-4"></a>
+<a id="__codelineno-62-5" name="__codelineno-62-5"></a>Response with an added header
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-63-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1"></a>curl -i http://localhost:5000/http/response
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-64-1">1</a></span>
+<span class="normal"><a href="#__codelineno-64-2">2</a></span>
+<span class="normal"><a href="#__codelineno-64-3">3</a></span>
+<span class="normal"><a href="#__codelineno-64-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-64-2" name="__codelineno-64-2"></a>Content-Type: text/plain; charset=utf-8
+<a id="__codelineno-64-3" name="__codelineno-64-3"></a>
+<a id="__codelineno-64-4" name="__codelineno-64-4"></a>Response written by [Response.WriteAsync]
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-65-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1"></a>curl -i http://localhost:5000/http/double
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-66-1">1</a></span>
+<span class="normal"><a href="#__codelineno-66-2">2</a></span>
+<span class="normal"><a href="#__codelineno-66-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-66-2" name="__codelineno-66-2"></a>
+<a id="__codelineno-66-3" name="__codelineno-66-3"></a>Start of the response... 
+</code></pre></div></td></tr></table></div>
+<p>Na última action, o navegador recebe o código de status 200 e o início da resposta, em vez do 404 solicitado. O console do servidor registra o erro:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-67-1">1</a></span>
+<span class="normal"><a href="#__codelineno-67-2">2</a></span>
+<span class="normal"><a href="#__codelineno-67-3">3</a></span>
+<span class="normal"><a href="#__codelineno-67-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1"></a>fail: Microsoft.AspNetCore.Server.Kestrel[13]
+<a id="__codelineno-67-2" name="__codelineno-67-2"></a>      Connection id "0HNP6TN1VG5OL", Request id "0HNP6TN1VG5OL:00000001": An unhandled exception was thrown by the application.
+<a id="__codelineno-67-3" name="__codelineno-67-3"></a>      System.InvalidOperationException: StatusCode cannot be set because the response has already started.
+<a id="__codelineno-67-4" name="__codelineno-67-4"></a>      ...
+</code></pre></div></td></tr></table></div>
+<p>No restante do documento, as actions quase sempre devolverão um resultado (<strong><em>[IActionResult]</em></strong>) e deixarão que o <em>[ASP.NET Core]</em> escreva a resposta. <strong><em>[Request]</em></strong> e <strong><em>[Response]</em></strong> só serão usados para ler a requisição e definir cookies.</p>
+<h2 id="26-exemplo-06-servicos-e-injecao-de-dependencia">2.6. <span style="color: #2e74b5">Exemplo 06: Serviços e injeção de dependência</span></h2>
+<p>Os controllers não devem conter lógica de aplicação; eles a delegam a <strong>serviços</strong>. Um serviço é um objeto comum que o <em>[ASP.NET Core]</em> cria e fornece às classes que precisam dele: é a <strong>injeção de dependência</strong>. O Exemplo 06 divide uma pequena aplicação em duas partes: produtos e clientes:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-68-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-68-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-68-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-68-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-68-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-68-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-68-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-68-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-68-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-68-10">10</a></span>
+<span class="normal"><a href="#__codelineno-68-11">11</a></span>
+<span class="normal"><a href="#__codelineno-68-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1"></a>06-services/
+<a id="__codelineno-68-2" name="__codelineno-68-2"></a>├── Clients/
+<a id="__codelineno-68-3" name="__codelineno-68-3"></a>│   └── ClientsController.cs
+<a id="__codelineno-68-4" name="__codelineno-68-4"></a>├── Products/
+<a id="__codelineno-68-5" name="__codelineno-68-5"></a>│   ├── IProductsService.cs
+<a id="__codelineno-68-6" name="__codelineno-68-6"></a>│   ├── Product.cs
+<a id="__codelineno-68-7" name="__codelineno-68-7"></a>│   ├── ProductsController.cs
+<a id="__codelineno-68-8" name="__codelineno-68-8"></a>│   ├── ProductsExtensions.cs
+<a id="__codelineno-68-9" name="__codelineno-68-9"></a>│   └── ProductsService.cs
+<a id="__codelineno-68-10" name="__codelineno-68-10"></a>├── appsettings.json
+<a id="__codelineno-68-11" name="__codelineno-68-11"></a>├── Example06.csproj
+<a id="__codelineno-68-12" name="__codelineno-68-12"></a>└── Program.cs
+</code></pre></div></td></tr></table></div>
+<h3 id="261-o-product">2.6.1. <span style="color: #1f4d78">O Product</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-69-1">1</a></span>
+<span class="normal"><a href="#__codelineno-69-2">2</a></span>
+<span class="normal"><a href="#__codelineno-69-3">3</a></span>
+<span class="normal"><a href="#__codelineno-69-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example06.Products</span><span class="p">;</span>
+<a id="__codelineno-69-2" name="__codelineno-69-2"></a>
+<a id="__codelineno-69-3" name="__codelineno-69-3"></a><span class="c1">// um "record": uma classe de dados cujas propriedades são definidas pelo construtor</span>
+<a id="__codelineno-69-4" name="__codelineno-69-4"></a><span class="k">public</span><span class="w"> </span><span class="k">record</span><span class="w"> </span><span class="nf">Product</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="kt">decimal</span><span class="w"> </span><span class="n">Price</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Um <strong>record</strong>: uma classe de dados declarada em uma única linha. O compilador cria as propriedades <strong><em>[Id], [Name] e [Price]</em></strong>, um construtor que as inicializa e métodos utilitários (comparação, exibição). O tipo <strong><em>[decimal]</em></strong> representa valores monetários sem erros de arredondamento.</p>
+<h3 id="262-o-contrato-do-servico-iproductsservice">2.6.2. <span style="color: #1f4d78">O contrato do serviço: IProductsService</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-70-1">1</a></span>
+<span class="normal"><a href="#__codelineno-70-2">2</a></span>
+<span class="normal"><a href="#__codelineno-70-3">3</a></span>
+<span class="normal"><a href="#__codelineno-70-4">4</a></span>
+<span class="normal"><a href="#__codelineno-70-5">5</a></span>
+<span class="normal"><a href="#__codelineno-70-6">6</a></span>
+<span class="normal"><a href="#__codelineno-70-7">7</a></span>
+<span class="normal"><a href="#__codelineno-70-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example06.Products</span><span class="p">;</span>
+<a id="__codelineno-70-2" name="__codelineno-70-2"></a>
+<a id="__codelineno-70-3" name="__codelineno-70-3"></a><span class="c1">// o CONTRATO do serviço: o que ele sabe fazer, sem dizer como</span>
+<a id="__codelineno-70-4" name="__codelineno-70-4"></a><span class="k">public</span><span class="w"> </span><span class="k">interface</span><span class="w"> </span><span class="n">IProductsService</span>
+<a id="__codelineno-70-5" name="__codelineno-70-5"></a><span class="p">{</span>
+<a id="__codelineno-70-6" name="__codelineno-70-6"></a><span class="w">    </span><span class="n">IReadOnlyList</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span><span class="w"> </span><span class="n">FindAll</span><span class="p">();</span>
+<a id="__codelineno-70-7" name="__codelineno-70-7"></a><span class="w">    </span><span class="n">Product</span><span class="o">?</span><span class="w"> </span><span class="n">FindById</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-70-8" name="__codelineno-70-8"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>Linha 4: uma <strong>interface</strong> descreve o que o serviço pode fazer, sem especificar como. As classes que usam o serviço conhecerão apenas essa interface;</li>
+<li>linha 6: <strong><em>[IReadOnlyList&lt;Product&gt;]</em></strong>: uma lista que o chamador pode ler, mas não modificar;</li>
+<li>linha 7: <strong><em>[Product?]</em></strong>: um produto ou <strong><em>[null]</em></strong> se nenhum produto tiver esse identificador (veja <strong><em>[Nullable]</em></strong> na introdução).</li>
+</ul>
+<h3 id="263-a-implementacao-productsservice">2.6.3. <span style="color: #1f4d78">A implementação: ProductsService</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-71-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-71-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-71-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-71-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-71-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-71-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-71-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-71-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-71-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-71-10">10</a></span>
+<span class="normal"><a href="#__codelineno-71-11">11</a></span>
+<span class="normal"><a href="#__codelineno-71-12">12</a></span>
+<span class="normal"><a href="#__codelineno-71-13">13</a></span>
+<span class="normal"><a href="#__codelineno-71-14">14</a></span>
+<span class="normal"><a href="#__codelineno-71-15">15</a></span>
+<span class="normal"><a href="#__codelineno-71-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example06.Products</span><span class="p">;</span>
+<a id="__codelineno-71-2" name="__codelineno-71-2"></a>
+<a id="__codelineno-71-3" name="__codelineno-71-3"></a><span class="c1">// uma IMPLEMENTAÇÃO do contrato: aqui, dados em memória</span>
+<a id="__codelineno-71-4" name="__codelineno-71-4"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ProductsService</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IProductsService</span>
+<a id="__codelineno-71-5" name="__codelineno-71-5"></a><span class="p">{</span>
+<a id="__codelineno-71-6" name="__codelineno-71-6"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="o">=</span>
+<a id="__codelineno-71-7" name="__codelineno-71-7"></a><span class="w">    </span><span class="na">[</span>
+<a id="__codelineno-71-8" name="__codelineno-71-8"></a><span class="na">        new Product(1, "pen", 1.5m),</span>
+<a id="__codelineno-71-9" name="__codelineno-71-9"></a><span class="na">        new Product(2, "notebook", 3.2m),</span>
+<a id="__codelineno-71-10" name="__codelineno-71-10"></a><span class="na">        new Product(3, "eraser", 0.8m),</span>
+<a id="__codelineno-71-11" name="__codelineno-71-11"></a><span class="na">    ]</span><span class="p">;</span>
+<a id="__codelineno-71-12" name="__codelineno-71-12"></a>
+<a id="__codelineno-71-13" name="__codelineno-71-13"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IReadOnlyList</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span><span class="w"> </span><span class="n">FindAll</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+<a id="__codelineno-71-14" name="__codelineno-71-14"></a>
+<a id="__codelineno-71-15" name="__codelineno-71-15"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Product</span><span class="o">?</span><span class="w"> </span><span class="n">FindById</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">products</span><span class="p">.</span><span class="n">FirstOrDefault</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-71-16" name="__codelineno-71-16"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 4: a classe <strong>implementa</strong> a interface: ela deve fornecer todos os métodos dela;</li>
+<li>linhas 6–11: os dados, aqui em memória, em uma lista inicializada por uma expressão de coleção;</li>
+<li>linhas 13–15: os dois métodos, escritos com a sintaxe <strong><em>[=&gt;]</em></strong> (um método cujo corpo é uma única expressão). <strong><em>[FirstOrDefault]</em></strong> (<em>[LINQ]</em>) devolve o primeiro resultado que satisfaz a condição ou <strong><em>[null]</em></strong> se não houver nenhum.</li>
+</ul>
+<h3 id="264-o-controller-productscontroller">2.6.4. <span style="color: #1f4d78">O controller ProductsController</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-72-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-72-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-72-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-72-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-72-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-72-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-72-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-72-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-72-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-72-10">10</a></span>
+<span class="normal"><a href="#__codelineno-72-11">11</a></span>
+<span class="normal"><a href="#__codelineno-72-12">12</a></span>
+<span class="normal"><a href="#__codelineno-72-13">13</a></span>
+<span class="normal"><a href="#__codelineno-72-14">14</a></span>
+<span class="normal"><a href="#__codelineno-72-15">15</a></span>
+<span class="normal"><a href="#__codelineno-72-16">16</a></span>
+<span class="normal"><a href="#__codelineno-72-17">17</a></span>
+<span class="normal"><a href="#__codelineno-72-18">18</a></span>
+<span class="normal"><a href="#__codelineno-72-19">19</a></span>
+<span class="normal"><a href="#__codelineno-72-20">20</a></span>
+<span class="normal"><a href="#__codelineno-72-21">21</a></span>
+<span class="normal"><a href="#__codelineno-72-22">22</a></span>
+<span class="normal"><a href="#__codelineno-72-23">23</a></span>
+<span class="normal"><a href="#__codelineno-72-24">24</a></span>
+<span class="normal"><a href="#__codelineno-72-25">25</a></span>
+<span class="normal"><a href="#__codelineno-72-26">26</a></span>
+<span class="normal"><a href="#__codelineno-72-27">27</a></span>
+<span class="normal"><a href="#__codelineno-72-28">28</a></span>
+<span class="normal"><a href="#__codelineno-72-29">29</a></span>
+<span class="normal"><a href="#__codelineno-72-30">30</a></span>
+<span class="normal"><a href="#__codelineno-72-31">31</a></span>
+<span class="normal"><a href="#__codelineno-72-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-72-2" name="__codelineno-72-2"></a>
+<a id="__codelineno-72-3" name="__codelineno-72-3"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example06.Products</span><span class="p">;</span>
+<a id="__codelineno-72-4" name="__codelineno-72-4"></a>
+<a id="__codelineno-72-5" name="__codelineno-72-5"></a><span class="na">[Route("products")]</span>
+<a id="__codelineno-72-6" name="__codelineno-72-6"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ProductsController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-72-7" name="__codelineno-72-7"></a><span class="p">{</span>
+<a id="__codelineno-72-8" name="__codelineno-72-8"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">IProductsService</span><span class="w"> </span><span class="n">productsService</span><span class="p">;</span>
+<a id="__codelineno-72-9" name="__codelineno-72-9"></a>
+<a id="__codelineno-72-10" name="__codelineno-72-10"></a><span class="w">    </span><span class="c1">// injeção de dependência: o ASP.NET fornece a implementação de IProductsService</span>
+<a id="__codelineno-72-11" name="__codelineno-72-11"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nf">ProductsController</span><span class="p">(</span><span class="n">IProductsService</span><span class="w"> </span><span class="n">productsService</span><span class="p">)</span>
+<a id="__codelineno-72-12" name="__codelineno-72-12"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-72-13" name="__codelineno-72-13"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">productsService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">productsService</span><span class="p">;</span>
+<a id="__codelineno-72-14" name="__codelineno-72-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-72-15" name="__codelineno-72-15"></a>
+<a id="__codelineno-72-16" name="__codelineno-72-16"></a><span class="w">    </span><span class="na">[HttpGet("")]</span>
+<a id="__codelineno-72-17" name="__codelineno-72-17"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IReadOnlyList</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">()</span>
+<a id="__codelineno-72-18" name="__codelineno-72-18"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-72-19" name="__codelineno-72-19"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">productsService</span><span class="p">.</span><span class="n">FindAll</span><span class="p">();</span>
+<a id="__codelineno-72-20" name="__codelineno-72-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-72-21" name="__codelineno-72-21"></a>
+<a id="__codelineno-72-22" name="__codelineno-72-22"></a><span class="w">    </span><span class="na">[HttpGet("{id:int}")]</span>
+<a id="__codelineno-72-23" name="__codelineno-72-23"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IActionResult</span><span class="w"> </span><span class="nf">OneProduct</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<a id="__codelineno-72-24" name="__codelineno-72-24"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-72-25" name="__codelineno-72-25"></a><span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">productsService</span><span class="p">.</span><span class="n">FindById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-72-26" name="__codelineno-72-26"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">product</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
+<a id="__codelineno-72-27" name="__codelineno-72-27"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-72-28" name="__codelineno-72-28"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nf">NotFound</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$"Product no. {id} not found"</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-72-29" name="__codelineno-72-29"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-72-30" name="__codelineno-72-30"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">Ok</span><span class="p">(</span><span class="n">product</span><span class="p">);</span>
+<a id="__codelineno-72-31" name="__codelineno-72-31"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-72-32" name="__codelineno-72-32"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linhas 11–13: injeção de dependência. O controller declara, em seu construtor, que precisa de um <strong><em>[IProductsService]</em></strong>; o <em>[ASP.NET Core]</em> fornece a ele o objeto registrado para esse tipo (veja abaixo). O controller nunca chama <strong><em>[new ProductsService()]</em></strong>: ele nem sequer conhece essa classe, apenas a interface. A implementação poderia ser substituída (por uma versão que lê um banco de dados ou por uma versão de teste) sem modificar o controller;</li>
+<li>linhas 17–19: a action delega ao serviço. A lista é serializada em JSON;</li>
+<li>linhas 23–30: <strong><em>[{id:int}]</em></strong> converte o identificador; um produto inexistente devolve uma resposta 404. <strong><em>[Ok(object)]</em></strong> devolve uma resposta 200 cujo conteúdo é o objeto serializado em JSON. <strong><em>[is null]</em></strong> verifica se um valor é nulo.</li>
+</ul>
+<h3 id="265-o-controller-clientscontroller">2.6.5. <span style="color: #1f4d78">O controller ClientsController</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-73-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-73-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-73-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-73-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-73-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-73-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-73-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-73-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-73-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-73-10">10</a></span>
+<span class="normal"><a href="#__codelineno-73-11">11</a></span>
+<span class="normal"><a href="#__codelineno-73-12">12</a></span>
+<span class="normal"><a href="#__codelineno-73-13">13</a></span>
+<span class="normal"><a href="#__codelineno-73-14">14</a></span>
+<span class="normal"><a href="#__codelineno-73-15">15</a></span>
+<span class="normal"><a href="#__codelineno-73-16">16</a></span>
+<span class="normal"><a href="#__codelineno-73-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example06.Products</span><span class="p">;</span>
+<a id="__codelineno-73-2" name="__codelineno-73-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<a id="__codelineno-73-3" name="__codelineno-73-3"></a>
+<a id="__codelineno-73-4" name="__codelineno-73-4"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example06.Clients</span><span class="p">;</span>
+<a id="__codelineno-73-5" name="__codelineno-73-5"></a>
+<a id="__codelineno-73-6" name="__codelineno-73-6"></a><span class="c1">// "construtor primário" (C# 12): o parâmetro do construtor é escrito</span>
+<a id="__codelineno-73-7" name="__codelineno-73-7"></a><span class="c1">// logo após o nome da classe e pode ser usado em toda a classe</span>
+<a id="__codelineno-73-8" name="__codelineno-73-8"></a><span class="na">[Route("clients")]</span>
+<a id="__codelineno-73-9" name="__codelineno-73-9"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nf">ClientsController</span><span class="p">(</span><span class="n">IProductsService</span><span class="w"> </span><span class="n">productsService</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span>
+<a id="__codelineno-73-10" name="__codelineno-73-10"></a><span class="p">{</span>
+<a id="__codelineno-73-11" name="__codelineno-73-11"></a><span class="w">    </span><span class="na">[HttpGet("cart")]</span>
+<a id="__codelineno-73-12" name="__codelineno-73-12"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">object</span><span class="w"> </span><span class="nf">Cart</span><span class="p">()</span>
+<a id="__codelineno-73-13" name="__codelineno-73-13"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-73-14" name="__codelineno-73-14"></a><span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">productsService</span><span class="p">.</span><span class="n">FindAll</span><span class="p">();</span>
+<a id="__codelineno-73-15" name="__codelineno-73-15"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Jean Martin"</span><span class="p">,</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">products</span><span class="p">.</span><span class="n">Count</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">products</span><span class="p">.</span><span class="n">Sum</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="p">)</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-73-16" name="__codelineno-73-16"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-73-17" name="__codelineno-73-17"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 9: um <strong>construtor primário</strong> (<em>[C#]</em> 12): o parâmetro do construtor é escrito logo após o nome da classe. Ele pode ser usado em toda a classe: não é preciso copiá-lo para um campo. É a forma mais compacta de injeção de dependência; ela será usada no restante deste documento. O <strong><em>[ClientsController]</em></strong> recebe o mesmo serviço que o <strong><em>[ProductsController]</em></strong>;</li>
+<li>linhas 12–15: ele o usa para calcular o total de um carrinho de compras. <strong><em>[Sum]</em></strong> (<em>[LINQ]</em>) soma os preços.</li>
+</ul>
+<h3 id="266-registro-dos-servicos">2.6.6. <span style="color: #1f4d78">Registro dos serviços</span></h3>
+<p><em>O [ASP.NET Core]</em> só pode fornecer um serviço se o conhecer: cada serviço é <strong>registrado</strong> em <strong><em>[builder.Services]</em></strong>, junto com seu <strong>tempo de vida</strong>. O arquivo <strong><em>[Products/ProductsExtensions.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-74-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-74-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-74-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-74-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-74-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-74-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-74-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-74-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-74-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-74-10">10</a></span>
+<span class="normal"><a href="#__codelineno-74-11">11</a></span>
+<span class="normal"><a href="#__codelineno-74-12">12</a></span>
+<span class="normal"><a href="#__codelineno-74-13">13</a></span>
+<span class="normal"><a href="#__codelineno-74-14">14</a></span>
+<span class="normal"><a href="#__codelineno-74-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">Example06.Products</span><span class="p">;</span>
+<a id="__codelineno-74-2" name="__codelineno-74-2"></a>
+<a id="__codelineno-74-3" name="__codelineno-74-3"></a><span class="c1">// um "método de extensão": é chamado como se fizesse parte de</span>
+<a id="__codelineno-74-4" name="__codelineno-74-4"></a><span class="c1">// IServiceCollection (builder.Services.AddProducts()). Ele agrupa os</span>
+<a id="__codelineno-74-5" name="__codelineno-74-5"></a><span class="c1">// registros da parte "produtos" da aplicação.</span>
+<a id="__codelineno-74-6" name="__codelineno-74-6"></a><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ProductsExtensions</span>
+<a id="__codelineno-74-7" name="__codelineno-74-7"></a><span class="p">{</span>
+<a id="__codelineno-74-8" name="__codelineno-74-8"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IServiceCollection</span><span class="w"> </span><span class="nf">AddProducts</span><span class="p">(</span><span class="k">this</span><span class="w"> </span><span class="n">IServiceCollection</span><span class="w"> </span><span class="n">services</span><span class="p">)</span>
+<a id="__codelineno-74-9" name="__codelineno-74-9"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-74-10" name="__codelineno-74-10"></a><span class="w">        </span><span class="c1">// "quando um IProductsService for solicitado, forneça um ProductsService";</span>
+<a id="__codelineno-74-11" name="__codelineno-74-11"></a><span class="w">        </span><span class="c1">// Singleton: uma única instância, compartilhada por todas as requisições</span>
+<a id="__codelineno-74-12" name="__codelineno-74-12"></a><span class="w">        </span><span class="n">services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="o">&lt;</span><span class="n">IProductsService</span><span class="p">,</span><span class="w"> </span><span class="n">ProductsService</span><span class="o">&gt;</span><span class="p">();</span>
+<a id="__codelineno-74-13" name="__codelineno-74-13"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">services</span><span class="p">;</span>
+<a id="__codelineno-74-14" name="__codelineno-74-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-74-15" name="__codelineno-74-15"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 6: uma classe estática, que contém apenas métodos estáticos;</li>
+<li>linha 8: um <strong>método de extensão</strong>. A palavra-chave <strong><em>[this]</em></strong> antes do primeiro parâmetro permite chamá-lo como se fizesse parte do tipo desse parâmetro: <strong><em>[builder.Services.AddProducts()]</em></strong>. É assim que as bibliotecas do <em>[ASP.NET Core]</em> adicionam seus serviços (<strong><em>[AddControllers]</em></strong>, <strong><em>[AddAuthentication]</em></strong>...), e é uma boa maneira de agrupar os registros de uma parte específica da aplicação;</li>
+<li>linha 12: “quando uma classe solicitar um <strong><em>[IProductsService]</em></strong>, forneça a ela um <strong><em>[ProductsService]</em></strong>.” <strong><em>[Singleton]</em></strong> é o tempo de vida do serviço: uma única instância, criada na primeira requisição e compartilhada por todas as requisições. Existem outros dois tempos de vida: <strong><em>[Scoped]</em></strong> (uma instância por requisição) e [Transient] (uma nova instância a cada solicitação). O Capítulo 6 voltará a este assunto;</li>
+<li>linha 13: o método devolve a lista de serviços para que as chamadas possam ser encadeadas.</li>
+</ul>
+<p>O arquivo <strong><em>[Program.cs]</em></strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-75-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-75-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-75-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-75-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-75-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-75-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-75-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-75-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-75-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-75-10">10</a></span>
+<span class="normal"><a href="#__codelineno-75-11">11</a></span>
+<span class="normal"><a href="#__codelineno-75-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">Example06.Products</span><span class="p">;</span>
+<a id="__codelineno-75-2" name="__codelineno-75-2"></a>
+<a id="__codelineno-75-3" name="__codelineno-75-3"></a><span class="kt">var</span><span class="w"> </span><span class="n">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WebApplication</span><span class="p">.</span><span class="n">CreateBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+<a id="__codelineno-75-4" name="__codelineno-75-4"></a>
+<a id="__codelineno-75-5" name="__codelineno-75-5"></a><span class="c1">// os serviços do MVC</span>
+<a id="__codelineno-75-6" name="__codelineno-75-6"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddControllers</span><span class="p">();</span>
+<a id="__codelineno-75-7" name="__codelineno-75-7"></a><span class="c1">// os serviços da parte "produtos" (veja Products/ProductsExtensions.cs)</span>
+<a id="__codelineno-75-8" name="__codelineno-75-8"></a><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddProducts</span><span class="p">();</span>
+<a id="__codelineno-75-9" name="__codelineno-75-9"></a>
+<a id="__codelineno-75-10" name="__codelineno-75-10"></a><span class="kt">var</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Build</span><span class="p">();</span>
+<a id="__codelineno-75-11" name="__codelineno-75-11"></a><span class="n">app</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">();</span>
+<a id="__codelineno-75-12" name="__codelineno-75-12"></a><span class="n">app</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>linha 1: o namespace do método de extensão;</li>
+<li>linha 8: o registro do serviço de produtos.</li>
+</ul>
+<p>Os controllers, por sua vez, não são registrados individualmente: <strong><em>[AddControllers]</em></strong> os encontra todos, e o <em>[ASP.NET Core]</em> cria um novo objeto controller a cada requisição, injetando nele os serviços que ele solicita.</p>
+<h3 id="267-execucao">2.6.7. <span style="color: #1f4d78">Execução</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-76-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1"></a>curl -i http://localhost:5000/products
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-77-1">1</a></span>
+<span class="normal"><a href="#__codelineno-77-2">2</a></span>
+<span class="normal"><a href="#__codelineno-77-3">3</a></span>
+<span class="normal"><a href="#__codelineno-77-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-77-2" name="__codelineno-77-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-77-3" name="__codelineno-77-3"></a>
+<a id="__codelineno-77-4" name="__codelineno-77-4"></a>[{"id":1,"name":"pen","price":1.5},{"id":2,"name":"notebook","price":3.2},{"id":3,"name":"eraser","price":0.8}]
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-78-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1"></a>curl -i http://localhost:5000/products/2
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-79-1">1</a></span>
+<span class="normal"><a href="#__codelineno-79-2">2</a></span>
+<span class="normal"><a href="#__codelineno-79-3">3</a></span>
+<span class="normal"><a href="#__codelineno-79-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-79-2" name="__codelineno-79-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-79-3" name="__codelineno-79-3"></a>
+<a id="__codelineno-79-4" name="__codelineno-79-4"></a>{"id":2,"name":"notebook","price":3.2}
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-80-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1"></a>curl -i http://localhost:5000/products/9
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-81-1">1</a></span>
+<span class="normal"><a href="#__codelineno-81-2">2</a></span>
+<span class="normal"><a href="#__codelineno-81-3">3</a></span>
+<span class="normal"><a href="#__codelineno-81-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1"></a>HTTP/1.1 404 Not Found
+<a id="__codelineno-81-2" name="__codelineno-81-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-81-3" name="__codelineno-81-3"></a>
+<a id="__codelineno-81-4" name="__codelineno-81-4"></a>{"message":"Product no. 9 not found"}
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-82-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1"></a>curl -i http://localhost:5000/clients/cart
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-83-1">1</a></span>
+<span class="normal"><a href="#__codelineno-83-2">2</a></span>
+<span class="normal"><a href="#__codelineno-83-3">3</a></span>
+<span class="normal"><a href="#__codelineno-83-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-83-2" name="__codelineno-83-2"></a>Content-Type: application/json; charset=utf-8
+<a id="__codelineno-83-3" name="__codelineno-83-3"></a>
+<a id="__codelineno-83-4" name="__codelineno-83-4"></a>{"client":"Jean Martin","items":3,"total":5.5}
+</code></pre></div></td></tr></table></div>
+<p>O estudo de caso é estruturado exatamente assim: controllers enxutos que delegam a serviços injetados, descritos por interfaces e registrados em <strong><em>[Program.cs]</em></strong>.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner">
+
+      <div>
+        <a href="https://stahe.github.io" target="_blank">
+          https://stahe.github.io
+        </a>
+        <br>
+        Este tutorial, escrito pela IA <strong>Claude</strong>, da Anthropic, a pedido de <strong>Serge Tahé</strong>, é disponibilizado ao público sob os termos da licença
+        <em>Creative Commons Atribuição – Uso Não Comercial –
+        Compartilha Igual 3.0 Não Adaptada</em>.
+
+      </div>
+
+    </div>
+  </div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "toc.integrate", "navigation.top"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="javascripts/focus.js"></script>
+      
+    
+  </body>
+</html>
